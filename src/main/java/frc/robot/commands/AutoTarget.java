@@ -4,6 +4,8 @@
 
 package frc.robot.commands;
 
+import static frc.robot.Constants.FieldConstants.HUB_POSITION;
+
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.drive.Drive;
@@ -13,16 +15,18 @@ import frc.robot.util.AutoMath;
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
 public class AutoTarget extends ParallelCommandGroup {
-  /** Creates a new AutoShooterDistance. */
-  public AutoTarget(Drive m_Drive, Shooter m_Shooter) {
-    // Add your commands in the addCommands() call, e.g.
-    // addCommands(new FooCommand(), new BarCommand());
+    /** Creates a new AutoShooterDistance. */
+    public AutoTarget(Drive m_Drive, Shooter m_Shooter) {
+        // Add your commands in the addCommands() call, e.g.
+        // addCommands(new FooCommand(), new BarCommand());
 
-    addCommands(
-        m_Shooter.setShooterRPM(
-            () ->
-                AutoMath.getShooterSpeedFromDistance(AutoMath.getDistanceToHub(m_Drive.getPose()))),
-        DriveCommands.joystickDriveAtAngle(
-            m_Drive, () -> 0.0, () -> 0.0, () -> AutoMath.getRobotAngleToHub(m_Drive.getPose())));
-  }
+        addCommands(
+                m_Shooter.setShooterRPM(() -> AutoMath.getShooterSpeedFromDistance(
+                        AutoMath.getDistanceToTarget(m_Drive.getPose(), HUB_POSITION))),
+                DriveCommands.joystickDriveAtAngle(
+                        m_Drive,
+                        () -> 0.0,
+                        () -> 0.0,
+                        () -> AutoMath.getRobotAngleToTarget(m_Drive.getPose(), HUB_POSITION)));
+    }
 }

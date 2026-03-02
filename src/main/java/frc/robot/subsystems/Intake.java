@@ -20,85 +20,81 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 public class Intake extends SubsystemBase {
-  /** Creates a new Intake. */
-  private final KrakenX60 intakeMotor = new KrakenX60(IntakeConstants.WHEEL_MOTOR_ID);
+    /** Creates a new Intake. */
+    private final KrakenX60 intakeMotor = new KrakenX60(IntakeConstants.WHEEL_MOTOR_ID);
 
-  private final KrakenX60 pivotMotor = new KrakenX60(IntakeConstants.PIVOT_MOTOR_ID);
+    private final KrakenX60 pivotMotor = new KrakenX60(IntakeConstants.PIVOT_MOTOR_ID);
 
-  private final AbsoluteEncoder pivotEncoder =
-      new AbsoluteEncoder(IntakeConstants.PIVOT_ENCODER_ID, IntakeConstants.PIVOT_ENCODER_OFFSET);
+    private final AbsoluteEncoder pivotEncoder =
+            new AbsoluteEncoder(IntakeConstants.PIVOT_ENCODER_ID, IntakeConstants.PIVOT_ENCODER_OFFSET);
 
-  // TODO: Tune and set defaults
-  private final PidTuner intakePidTuner = new PidTuner("/Intake/", 0.1, 0.02, 0.0, 0.0, 0.13);
-  private final TunablePidController pivotController =
-      new TunablePidController("/Intake/Pivot/", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
+    // TODO: Tune and set defaults
+    private final PidTuner intakePidTuner = new PidTuner("/Intake/", 0.1, 0.02, 0.0, 0.0, 0.13);
+    private final TunablePidController pivotController =
+            new TunablePidController("/Intake/Pivot/", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);
 
-  public Intake() {
-    pivotEncoder.setInverted(true);
-    pivotMotor.setBrakeMode(NeutralModeValue.Brake);
-    intakeMotor.setInverted(InvertedValue.Clockwise_Positive);
-  }
+    public Intake() {
+        pivotEncoder.setInverted(true);
+        pivotMotor.setBrakeMode(NeutralModeValue.Brake);
+        intakeMotor.setInverted(InvertedValue.Clockwise_Positive);
+    }
 
-  public Command setPivotVoltage(Supplier<Double> voltage) {
-    return runOnce(
-        () -> {
-          pivotMotor.setVoltage(voltage.get());
+    public Command setPivotVoltage(Supplier<Double> voltage) {
+        return runOnce(() -> {
+            pivotMotor.setVoltage(voltage.get());
         });
-  }
+    }
 
-  public Command setPivotPosition(Supplier<Double> position) {
-    return setPivotVoltage(() -> pivotController.calculate(pivotEncoder.get(), position.get()));
-  }
+    public Command setPivotPosition(Supplier<Double> position) {
+        return setPivotVoltage(() -> pivotController.calculate(pivotEncoder.get(), position.get()));
+    }
 
-  public Command manualPivotVoltage() {
-    LoggedNetworkNumber voltage = new LoggedNetworkNumber("/Intake/Pivot/Voltage", 0.0);
-    return setPivotVoltage(() -> voltage.get());
-  }
+    public Command manualPivotVoltage() {
+        LoggedNetworkNumber voltage = new LoggedNetworkNumber("/Intake/Pivot/Voltage", 0.0);
+        return setPivotVoltage(() -> voltage.get());
+    }
 
-  public Command manualPivotPosition() {
-    LoggedNetworkNumber pos = new LoggedNetworkNumber("/Intake/Pivot/Target Position", 0.0);
-    return setPivotPosition(() -> pos.get());
-  }
+    public Command manualPivotPosition() {
+        LoggedNetworkNumber pos = new LoggedNetworkNumber("/Intake/Pivot/Target Position", 0.0);
+        return setPivotPosition(() -> pos.get());
+    }
 
-  public Command setIntakeVoltage(Supplier<Double> voltage) {
-    return runOnce(
-            () -> {
-              intakeMotor.setVoltage(voltage.get());
-            })
-        .handleInterrupt(
-            () -> {
-              intakeMotor.setVoltage(0.0);
-            });
-  }
+    public Command setIntakeVoltage(Supplier<Double> voltage) {
+        return runOnce(() -> {
+                    intakeMotor.setVoltage(voltage.get());
+                })
+                .handleInterrupt(() -> {
+                    intakeMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command setIntakeRPM(Supplier<Double> rpm) {
-    return run(() -> {
-          intakeMotor.setVelocity(rpm.get(), RPM);
-        })
-        .handleInterrupt(
-            () -> {
-              intakeMotor.setVoltage(0.0);
-            });
-  }
+    public Command setIntakeRPM(Supplier<Double> rpm) {
+        return run(() -> {
+                    intakeMotor.setVelocity(rpm.get(), RPM);
+                })
+                .handleInterrupt(() -> {
+                    intakeMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command manualIntakeRPM(Supplier<Boolean> reverse) {
-    LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Intake/Target RPM", 2000.0);
-    return setIntakeRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
-  }
+    public Command manualIntakeRPM(Supplier<Boolean> reverse) {
+        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Intake/Target RPM", 2000.0);
+        return setIntakeRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    Logger.recordOutput("/Intake/Pivot/Current Angle", pivotEncoder.get());
-    Logger.recordOutput("/Intake/Pivot/New Offset", (pivotEncoder.getRaw() * 360.0) - 0.5);
-    if (intakePidTuner.updated()) intakeMotor.updateFromTuner(intakePidTuner);
-    pivotController.update();
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        Logger.recordOutput("/Intake/Pivot/Current Angle", pivotEncoder.get());
+        Logger.recordOutput("/Intake/Pivot/New Offset", (pivotEncoder.getRaw() * 360.0) - 0.5);
+        if (intakePidTuner.updated()) intakeMotor.updateFromTuner(intakePidTuner);
+        pivotController.update();
 
-    Logger.recordOutput(
-        "/Intake/Pivot/Current RPM", pivotMotor.getVelocity().getValueAsDouble() * 60);
-    Logger.recordOutput("/Intake/Current RPM", intakeMotor.getVelocity().getValueAsDouble() * 60);
+        Logger.recordOutput(
+                "/Intake/Pivot/Current RPM", pivotMotor.getVelocity().getValueAsDouble() * 60);
+        Logger.recordOutput("/Intake/Current RPM", intakeMotor.getVelocity().getValueAsDouble() * 60);
 
-    intakeMotor.logCurrents("/Intake");
-    pivotMotor.logCurrents("/Intake/Pivot");
-  }
+        intakeMotor.logCurrents("/Intake");
+        pivotMotor.logCurrents("/Intake/Pivot");
+    }
 }

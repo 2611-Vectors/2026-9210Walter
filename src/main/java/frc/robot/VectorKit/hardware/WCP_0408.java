@@ -8,10 +8,10 @@ import edu.wpi.first.wpilibj.Servo;
 
 /** Add your docs here. */
 public class WCP_0408 extends Servo {
-  // https://wcproducts.com/products/wcp-0408
+    // https://wcproducts.com/products/wcp-0408
 
-  public WCP_0408(int channel) {
-    super(channel);
-    super.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
-  }
+    public WCP_0408(int channel) {
+        super(channel);
+        super.setBoundsMicroseconds(2000, 1800, 1500, 1200, 1000);
+    }
 }

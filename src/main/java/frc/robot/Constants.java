@@ -9,9 +9,9 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
+import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Rotation3d;
-import edu.wpi.first.math.geometry.Transform2d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
@@ -22,144 +22,138 @@ import edu.wpi.first.wpilibj.RobotBase;
  * (log replay from a file).
  */
 public final class Constants {
-  public static final Mode simMode = Mode.SIM;
-  public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
+    public static final Mode simMode = Mode.SIM;
+    public static final Mode currentMode = RobotBase.isReal() ? Mode.REAL : simMode;
 
-  public static enum Mode {
-    /** Running on a real robot. */
-    REAL,
+    public static enum Mode {
+        /** Running on a real robot. */
+        REAL,
 
-    /** Running a physics simulator. */
-    SIM,
+        /** Running a physics simulator. */
+        SIM,
 
-    /** Replaying from a log file. */
-    REPLAY
-  }
+        /** Replaying from a log file. */
+        REPLAY
+    }
 
-  public static class ControllerConstants {
-    public static final int DRIVER_CONTROLLER_ID = 0;
-    public static final int OPERATOR_CONTROLLER_ID = 1;
-  }
+    public static class ControllerConstants {
+        public static final int DRIVER_CONTROLLER_ID = 0;
+        public static final int OPERATOR_CONTROLLER_ID = 1;
+    }
 
-  public static class ShooterConstants {
-    public static final int LEFT_MOTOR_ID = 61;
-    public static final int RIGHT_MOTOR_ID = 62;
+    public static class ShooterConstants {
+        public static final int LEFT_MOTOR_ID = 61;
+        public static final int RIGHT_MOTOR_ID = 62;
 
-    public static final int LEFT_LINEAR_ACTUATOR_ID = 0;
-    public static final int RIGHT_LINEAR_ACTUATOR_ID = 1;
+        public static final int LEFT_LINEAR_ACTUATOR_ID = 0;
+        public static final int RIGHT_LINEAR_ACTUATOR_ID = 1;
 
-    public static final double LINEAR_ACTUATOR_MINIMUM = 0.65;
-    public static final double LINEAR_ACTUATOR_MAXIMUM = 1.0;
+        public static final double LINEAR_ACTUATOR_MINIMUM = 0.65;
+        public static final double LINEAR_ACTUATOR_MAXIMUM = 1.0;
 
-    public static final double TIP_TO_RPM = 250.637;
-    public static final double GRAVITATIONAL_CONSTANT = 9.8;
-    public static final double INITIAL_HEIGHT = 0.4862;
-    public static final double LAUNCH_ANGLE = 1.42;
-    public static final double LAUNCH_ANGLE_COS = 2 * Math.pow(Math.cos(LAUNCH_ANGLE), 2);
+        public static final double TIP_TO_RPM = 250.637;
+        public static final double GRAVITATIONAL_CONSTANT = 9.8;
+        public static final double INITIAL_HEIGHT = 0.4862;
+        public static final double LAUNCH_ANGLE = 1.42;
+        public static final double LAUNCH_ANGLE_COS = 2 * Math.pow(Math.cos(LAUNCH_ANGLE), 2);
 
-    public static final double MAXIMUM_RPM = 4500.0;
-  }
+        public static final double MAXIMUM_RPM = 4500.0;
+    }
 
-  public static class FullSendConstants {
-    public static final int MAIN_MOTOR_ID = 60;
-  }
+    public static class FullSendConstants {
+        public static final int MAIN_MOTOR_ID = 60;
+    }
 
-  public static class IntakeConstants {
-    public static final int PIVOT_MOTOR_ID = 32;
-    public static final int WHEEL_MOTOR_ID = 31;
+    public static class IntakeConstants {
+        public static final int PIVOT_MOTOR_ID = 32;
+        public static final int WHEEL_MOTOR_ID = 31;
 
-    public static final int PIVOT_ENCODER_ID = 0;
-    public static final double PIVOT_ENCODER_OFFSET = 304.0;
+        public static final int PIVOT_ENCODER_ID = 0;
+        public static final double PIVOT_ENCODER_OFFSET = 304.0;
 
-    public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
-    public static final double PIVOT_IN_ANGLE = 1.5;
-    public static final double PIVOT_OUT_ANGLE = 132.0;
-  }
+        public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
+        public static final double PIVOT_IN_ANGLE = 1.5;
+        public static final double PIVOT_OUT_ANGLE = 132.0;
+    }
 
-  public static class TransitionConstants {
-    public static final int UPPER_LEFT_MOTOR_ID = 41;
-    public static final int UPPER_RIGHT_MOTOR_ID = 42;
-    public static final int LOWER_MOTOR_ID = 52;
+    public static class TransitionConstants {
+        public static final int UPPER_LEFT_MOTOR_ID = 41;
+        public static final int UPPER_RIGHT_MOTOR_ID = 42;
+        public static final int LOWER_MOTOR_ID = 52;
 
-    public static final double UPPER_GEAR_RATIO = 1.0 / 3.0;
-    public static final double LOWER_GEAR_RATIO = 1.0;
-  }
+        public static final double UPPER_GEAR_RATIO = 1.0 / 3.0;
+        public static final double LOWER_GEAR_RATIO = 1.0;
+    }
 
-  public static class VisionConstants {
-    // Apriltag Field Layout
+    public static class VisionConstants {
+        // Apriltag Field Layout
 
-    public static AprilTagFieldLayout aprilTagLayout =
-        AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
+        public static AprilTagFieldLayout aprilTagLayout =
+                AprilTagFieldLayout.loadField(AprilTagFields.k2026RebuiltWelded);
 
-    public static final double FIELD_WIDTH = 16.541;
-    public static final double FIELD_HEIGHT = 8.069;
+        public static final double FIELD_WIDTH = 16.541;
+        public static final double FIELD_HEIGHT = 8.069;
 
-    // Name of PhotonVision Camera
-    public static final String RightRearCam = "Camera4";
+        // Name of PhotonVision Camera
+        public static final String RightRearCam = "Camera4";
 
-    // Position of PhotonVision Camera
-    public static final Transform3d robotToRightRearCam =
-        new Transform3d(
-            Units.inchesToMeters(-11.12),
-            Units.inchesToMeters(-10.41),
-            Units.inchesToMeters(16.28),
-            new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(179)));
+        // Position of PhotonVision Camera
+        public static final Transform3d robotToRightRearCam = new Transform3d(
+                Units.inchesToMeters(-11.12),
+                Units.inchesToMeters(-10.41),
+                Units.inchesToMeters(16.28),
+                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(179)));
 
-    // Name of PhotonVision Camera
-    public static final String LeftRearCam = "Camera6";
+        // Name of PhotonVision Camera
+        public static final String LeftRearCam = "Camera6";
 
-    // Position of PhotonVision Camera
-    public static final Transform3d robotToLeftRearCam =
-        new Transform3d(
-            Units.inchesToMeters(-11.12),
-            Units.inchesToMeters(10.41),
-            Units.inchesToMeters(16.28),
-            new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(181)));
+        // Position of PhotonVision Camera
+        public static final Transform3d robotToLeftRearCam = new Transform3d(
+                Units.inchesToMeters(-11.12),
+                Units.inchesToMeters(10.41),
+                Units.inchesToMeters(16.28),
+                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(181)));
 
-    // Name of PhotonVision Camera
-    public static final String LeftFrontCam = "Camera5";
+        // Name of PhotonVision Camera
+        public static final String LeftFrontCam = "Camera5";
 
-    // Position of PhotonVision Camera
-    public static final Transform3d robotToLeftFrontCam =
-        new Transform3d(
-            Units.inchesToMeters(-7.58),
-            Units.inchesToMeters(10.81),
-            Units.inchesToMeters(16.28),
-            new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(19)));
+        // Position of PhotonVision Camera
+        public static final Transform3d robotToLeftFrontCam = new Transform3d(
+                Units.inchesToMeters(-7.58),
+                Units.inchesToMeters(10.81),
+                Units.inchesToMeters(16.28),
+                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(19)));
 
-    // Name of PhotonVision Camera
-    public static final String RightFrontCam = "Camera3";
+        // Name of PhotonVision Camera
+        public static final String RightFrontCam = "Camera3";
 
-    // Position of PhotonVision Camera
-    public static final Transform3d robotToRightFrontCam =
-        new Transform3d(
-            Units.inchesToMeters(-7.58),
-            Units.inchesToMeters(-10.81),
-            Units.inchesToMeters(16.28),
-            new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(-19)));
+        // Position of PhotonVision Camera
+        public static final Transform3d robotToRightFrontCam = new Transform3d(
+                Units.inchesToMeters(-7.58),
+                Units.inchesToMeters(-10.81),
+                Units.inchesToMeters(16.28),
+                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(-19)));
 
-    // Basic filtering thresholds
-    public static double maxAmbiguity = 0.2;
-    public static double maxZError = 0.2;
+        // Basic filtering thresholds
+        public static double maxAmbiguity = 0.2;
+        public static double maxZError = 0.2;
 
-    // Standard deviation baselines, for 1 meter distance and 1 tag
-    // (Adjusted automatically based on distance and # of tags)
-    public static double linearStdDevBaseline = 0.02; // Meters
-    public static double angularStdDevBaseline = 0.06; // Radians
+        // Standard deviation baselines, for 1 meter distance and 1 tag
+        // (Adjusted automatically based on distance and # of tags)
+        public static double linearStdDevBaseline = 0.02; // Meters
+        public static double angularStdDevBaseline = 0.06; // Radians
 
-    // Standard deviation multipliers for each camera
-    // (Adjust to trust some cameras more than others)
-    public static double[] cameraStdDevFactors = new double[] {1.0};
+        // Standard deviation multipliers for each camera
+        // (Adjust to trust some cameras more than others)
+        public static double[] cameraStdDevFactors = new double[] {1.0};
 
-    // Multipliers to apply for MegaTag 2 observations
-    public static double linearStdDevMegatag2Factor = 0.5; // More stable than full 3D solve
-    public static double angularStdDevMegatag2Factor =
-        Double.POSITIVE_INFINITY; // No rotation data available
-  }
+        // Multipliers to apply for MegaTag 2 observations
+        public static double linearStdDevMegatag2Factor = 0.5; // More stable than full 3D solve
+        public static double angularStdDevMegatag2Factor = Double.POSITIVE_INFINITY; // No rotation data available
+    }
 
-  public static class FieldConstants {
-    public static final Transform2d HUB_POSITION =
-        new Transform2d(
-            Units.inchesToMeters(182.11), Units.inchesToMeters(158.84), new Rotation2d());
-  }
+    public static class FieldConstants {
+        public static final Pose2d HUB_POSITION =
+                new Pose2d(Units.inchesToMeters(182.11), Units.inchesToMeters(158.84), new Rotation2d());
+    }
 }

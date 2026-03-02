@@ -18,122 +18,114 @@ import org.littletonrobotics.junction.Logger;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 public class Transition extends SubsystemBase {
-  /** Creates a new Transition. */
-  private final KrakenX60 lowerMotor = new KrakenX60(TransitionConstants.LOWER_MOTOR_ID);
+    /** Creates a new Transition. */
+    private final KrakenX60 lowerMotor = new KrakenX60(TransitionConstants.LOWER_MOTOR_ID);
 
-  private final KrakenX60 upperLeftMotor = new KrakenX60(TransitionConstants.UPPER_LEFT_MOTOR_ID);
-  private final KrakenX60 upperRightMotor = new KrakenX60(TransitionConstants.UPPER_RIGHT_MOTOR_ID);
+    private final KrakenX60 upperLeftMotor = new KrakenX60(TransitionConstants.UPPER_LEFT_MOTOR_ID);
+    private final KrakenX60 upperRightMotor = new KrakenX60(TransitionConstants.UPPER_RIGHT_MOTOR_ID);
 
-  private final PidTuner lowerTransitionPidTuner =
-      new PidTuner("/Transition/Lower/", 0.1, 0.02, 0.0, 0.0, 0.14);
-  private final PidTuner upperTransitionPidTuner =
-      new PidTuner("/Transition/Upper/", 0.1, 0.02, 0.0, 0.0, 0.11);
+    private final PidTuner lowerTransitionPidTuner = new PidTuner("/Transition/Lower/", 0.1, 0.02, 0.0, 0.0, 0.14);
+    private final PidTuner upperTransitionPidTuner = new PidTuner("/Transition/Upper/", 0.1, 0.02, 0.0, 0.0, 0.11);
 
-  public Transition() {
-    upperLeftMotor.setFollower(upperRightMotor, MotorAlignmentValue.Opposed);
-    upperLeftMotor.setInverted(InvertedValue.Clockwise_Positive);
-    lowerMotor.setInverted(InvertedValue.Clockwise_Positive);
-  }
+    public Transition() {
+        upperLeftMotor.setFollower(upperRightMotor, MotorAlignmentValue.Opposed);
+        upperLeftMotor.setInverted(InvertedValue.Clockwise_Positive);
+        lowerMotor.setInverted(InvertedValue.Clockwise_Positive);
+    }
 
-  public Command setUpperTransitioVoltage(Supplier<Double> voltage) {
-    return run(() -> {
-          upperLeftMotor.setVoltage(voltage.get());
-        })
-        .handleInterrupt(
-            () -> {
-              upperLeftMotor.setVoltage(0.0);
-            });
-  }
+    public Command setUpperTransitioVoltage(Supplier<Double> voltage) {
+        return run(() -> {
+                    upperLeftMotor.setVoltage(voltage.get());
+                })
+                .handleInterrupt(() -> {
+                    upperLeftMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command setUpperTransitionRPM(Supplier<Double> rpm) {
-    return run(() -> {
-          upperLeftMotor.setVelocity(rpm.get() * TransitionConstants.UPPER_GEAR_RATIO, RPM);
-        })
-        .handleInterrupt(
-            () -> {
-              upperLeftMotor.setVoltage(0.0);
-            });
-  }
+    public Command setUpperTransitionRPM(Supplier<Double> rpm) {
+        return run(() -> {
+                    upperLeftMotor.setVelocity(rpm.get() * TransitionConstants.UPPER_GEAR_RATIO, RPM);
+                })
+                .handleInterrupt(() -> {
+                    upperLeftMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command manualUpperTransitionRPM(Supplier<Boolean> reverse) {
-    LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 1000.0);
-    return setUpperTransitionRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
-  }
+    public Command manualUpperTransitionRPM(Supplier<Boolean> reverse) {
+        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 1000.0);
+        return setUpperTransitionRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
+    }
 
-  public Command setLowerTransitionVoltage(Supplier<Double> voltage) {
-    return run(() -> {
-          lowerMotor.setVoltage(voltage.get());
-        })
-        .handleInterrupt(
-            () -> {
-              lowerMotor.setVoltage(0.0);
-            });
-  }
+    public Command setLowerTransitionVoltage(Supplier<Double> voltage) {
+        return run(() -> {
+                    lowerMotor.setVoltage(voltage.get());
+                })
+                .handleInterrupt(() -> {
+                    lowerMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command setLowerTransitionRPM(Supplier<Double> rpm) {
-    return run(() -> {
-          lowerMotor.setVelocity(rpm.get(), RPM);
-        })
-        .handleInterrupt(
-            () -> {
-              lowerMotor.setVoltage(0.0);
-            });
-  }
+    public Command setLowerTransitionRPM(Supplier<Double> rpm) {
+        return run(() -> {
+                    lowerMotor.setVelocity(rpm.get(), RPM);
+                })
+                .handleInterrupt(() -> {
+                    lowerMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command manualLowerTransitionRPM(Supplier<Boolean> reverse) {
-    LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 1000.0);
-    return setLowerTransitionRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
-  }
+    public Command manualLowerTransitionRPM(Supplier<Boolean> reverse) {
+        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 1000.0);
+        return setLowerTransitionRPM(() -> (reverse.get() ? rpm.get() : -rpm.get()));
+    }
 
-  public Command setTransitionVoltage(
-      Supplier<Double> upperVoltage, Supplier<Double> lowerVoltage) {
-    return run(() -> {
-          lowerMotor.setVoltage(lowerVoltage.get());
-          upperLeftMotor.setVoltage(upperVoltage.get());
-        })
-        .handleInterrupt(
-            () -> {
-              lowerMotor.setVoltage(0.0);
-              upperLeftMotor.setVoltage(0.0);
-            });
-  }
+    public Command setTransitionVoltage(Supplier<Double> upperVoltage, Supplier<Double> lowerVoltage) {
+        return run(() -> {
+                    lowerMotor.setVoltage(lowerVoltage.get());
+                    upperLeftMotor.setVoltage(upperVoltage.get());
+                })
+                .handleInterrupt(() -> {
+                    lowerMotor.setVoltage(0.0);
+                    upperLeftMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command setTransitionRPM(Supplier<Double> upperRPM, Supplier<Double> lowerRPM) {
-    return run(() -> {
-          lowerMotor.setVelocity(lowerRPM.get(), RPM);
-          upperLeftMotor.setVelocity(upperRPM.get() / TransitionConstants.UPPER_GEAR_RATIO, RPM);
-        })
-        .handleInterrupt(
-            () -> {
-              lowerMotor.setVoltage(0.0);
-              upperLeftMotor.setVoltage(0.0);
-            });
-  }
+    public Command setTransitionRPM(Supplier<Double> upperRPM, Supplier<Double> lowerRPM) {
+        return run(() -> {
+                    lowerMotor.setVelocity(lowerRPM.get(), RPM);
+                    upperLeftMotor.setVelocity(upperRPM.get() / TransitionConstants.UPPER_GEAR_RATIO, RPM);
+                })
+                .handleInterrupt(() -> {
+                    lowerMotor.setVoltage(0.0);
+                    upperLeftMotor.setVoltage(0.0);
+                });
+    }
 
-  public Command manualTransitionRPM(Supplier<Boolean> reverse) {
-    LoggedNetworkNumber lowerRPM = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 3000.0);
-    LoggedNetworkNumber upperRPM = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 1000.0);
-    return setTransitionRPM(
-        () -> (reverse.get() ? upperRPM.get() : -upperRPM.get()),
-        () -> (reverse.get() ? lowerRPM.get() : -lowerRPM.get()));
-  }
+    public Command manualTransitionRPM(Supplier<Boolean> reverse) {
+        LoggedNetworkNumber lowerRPM = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 3000.0);
+        LoggedNetworkNumber upperRPM = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 1000.0);
+        return setTransitionRPM(
+                () -> (reverse.get() ? upperRPM.get() : -upperRPM.get()),
+                () -> (reverse.get() ? lowerRPM.get() : -lowerRPM.get()));
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-    if (lowerTransitionPidTuner.updated()) lowerMotor.updateFromTuner(lowerTransitionPidTuner);
-    if (upperTransitionPidTuner.updated()) upperLeftMotor.updateFromTuner(upperTransitionPidTuner);
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+        if (lowerTransitionPidTuner.updated()) lowerMotor.updateFromTuner(lowerTransitionPidTuner);
+        if (upperTransitionPidTuner.updated()) upperLeftMotor.updateFromTuner(upperTransitionPidTuner);
 
-    Logger.recordOutput(
-        "/Transition/Lower/Current RPM", lowerMotor.getVelocity().getValueAsDouble() * 60);
-    Logger.recordOutput(
-        "/Transition/Upper/Current Left RPM", upperLeftMotor.getVelocity().getValueAsDouble() * 60);
-    Logger.recordOutput(
-        "/Transition/Upper/Current Right RPM",
-        upperRightMotor.getVelocity().getValueAsDouble() * 60);
+        Logger.recordOutput(
+                "/Transition/Lower/Current RPM", lowerMotor.getVelocity().getValueAsDouble() * 60);
+        Logger.recordOutput(
+                "/Transition/Upper/Current Left RPM",
+                upperLeftMotor.getVelocity().getValueAsDouble() * 60);
+        Logger.recordOutput(
+                "/Transition/Upper/Current Right RPM",
+                upperRightMotor.getVelocity().getValueAsDouble() * 60);
 
-    upperLeftMotor.logCurrents("/Transition/Upper/Left");
-    upperRightMotor.logCurrents("/Transition/Upper/Right");
-    lowerMotor.logCurrents("/Transition/Lower");
-  }
+        upperLeftMotor.logCurrents("/Transition/Upper/Left");
+        upperRightMotor.logCurrents("/Transition/Upper/Right");
+        lowerMotor.logCurrents("/Transition/Lower");
+    }
 }

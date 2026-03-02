@@ -4,44 +4,43 @@
 
 package frc.robot.util;
 
+import static frc.robot.Constants.ShooterConstants.GRAVITATIONAL_CONSTANT;
+import static frc.robot.Constants.ShooterConstants.INITIAL_HEIGHT;
+import static frc.robot.Constants.ShooterConstants.LAUNCH_ANGLE;
+import static frc.robot.Constants.ShooterConstants.LAUNCH_ANGLE_COS;
+import static frc.robot.Constants.ShooterConstants.TIP_TO_RPM;
+
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
-import frc.robot.Constants.FieldConstants;
-import frc.robot.Constants.ShooterConstants;
 import frc.robot.commands.PathfindToStart;
 import org.littletonrobotics.junction.Logger;
 
 /** Add your docs here. */
 public class AutoMath {
-  public AutoMath() {}
+    public AutoMath() {}
 
-  public static Rotation2d getRobotAngleToHub(Pose2d robotPose) {
-    robotPose = PathfindToStart.flipRed(robotPose);
-    double a = robotPose.getX() - FieldConstants.HUB_POSITION.getX();
-    double b = robotPose.getY() - FieldConstants.HUB_POSITION.getY();
+    public static Rotation2d getRobotAngleToTarget(Pose2d robotPose, Pose2d target) {
+        robotPose = PathfindToStart.flipRed(robotPose);
+        double a = robotPose.getX() - target.getX();
+        double b = robotPose.getY() - target.getY();
 
-    return new Rotation2d(Math.atan(b / a) + Math.PI);
-  }
+        return new Rotation2d(Math.atan(b / a) + Math.PI);
+    }
 
-  public static double getDistanceToHub(Pose2d robotPose) {
-    robotPose = PathfindToStart.flipRed(robotPose);
-    double a = robotPose.getX() - FieldConstants.HUB_POSITION.getX();
-    double b = robotPose.getY() - FieldConstants.HUB_POSITION.getY();
-    double c = Math.sqrt((a * a) + (b * b));
+    public static double getDistanceToTarget(Pose2d robotPose, Pose2d target) {
+        robotPose = PathfindToStart.flipRed(robotPose);
+        double a = robotPose.getX() - target.getX();
+        double b = robotPose.getY() - target.getY();
+        double c = Math.sqrt((a * a) + (b * b));
 
-    Logger.recordOutput("Targeting/distToHub", c);
-    return c;
-  }
+        Logger.recordOutput("Targeting/distToHub", c);
+        return c;
+    }
 
-  public static double getShooterSpeedFromDistance(double dist) {
-    double a =
-        ShooterConstants.TIP_TO_RPM
-            * Math.sqrt(
-                (ShooterConstants.GRAVITATIONAL_CONSTANT * (dist * dist))
-                    / (ShooterConstants.LAUNCH_ANGLE_COS
-                        * (ShooterConstants.INITIAL_HEIGHT
-                            + Math.tan(ShooterConstants.LAUNCH_ANGLE) * dist
-                            - 5.9)));
-    return a;
-  }
+    public static double getShooterSpeedFromDistance(double dist) {
+        double a = TIP_TO_RPM
+                * Math.sqrt((GRAVITATIONAL_CONSTANT * (dist * dist))
+                        / (LAUNCH_ANGLE_COS * (INITIAL_HEIGHT + Math.tan(LAUNCH_ANGLE) * dist - 5.9)));
+        return a;
+    }
 }

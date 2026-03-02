@@ -12,36 +12,33 @@ import java.util.function.Supplier;
 import org.littletonrobotics.junction.networktables.LoggedNetworkNumber;
 
 public class Hood extends SubsystemBase {
-  /** Creates a new Hood. */
-  private final WCP_0408 leftLinearActuator =
-      new WCP_0408(ShooterConstants.LEFT_LINEAR_ACTUATOR_ID);
+    /** Creates a new Hood. */
+    private final WCP_0408 leftLinearActuator = new WCP_0408(ShooterConstants.LEFT_LINEAR_ACTUATOR_ID);
 
-  private final WCP_0408 rightLinearActuator =
-      new WCP_0408(ShooterConstants.RIGHT_LINEAR_ACTUATOR_ID);
+    private final WCP_0408 rightLinearActuator = new WCP_0408(ShooterConstants.RIGHT_LINEAR_ACTUATOR_ID);
 
-  public Hood() {}
+    public Hood() {}
 
-  public Command setHoodPos(Supplier<Double> pos) {
-    return run(
-        () -> {
-          double posActual = pos.get(); // 0.65 is our current minimum (2/26)
-          if (posActual < ShooterConstants.LINEAR_ACTUATOR_MINIMUM)
-            posActual = ShooterConstants.LINEAR_ACTUATOR_MINIMUM;
-          if (posActual > ShooterConstants.LINEAR_ACTUATOR_MAXIMUM)
-            posActual = ShooterConstants.LINEAR_ACTUATOR_MAXIMUM;
+    public Command setHoodPos(Supplier<Double> pos) {
+        return run(() -> {
+            double posActual = pos.get(); // 0.65 is our current minimum (2/26)
+            if (posActual < ShooterConstants.LINEAR_ACTUATOR_MINIMUM)
+                posActual = ShooterConstants.LINEAR_ACTUATOR_MINIMUM;
+            if (posActual > ShooterConstants.LINEAR_ACTUATOR_MAXIMUM)
+                posActual = ShooterConstants.LINEAR_ACTUATOR_MAXIMUM;
 
-          leftLinearActuator.set(posActual);
-          rightLinearActuator.set(posActual);
+            leftLinearActuator.set(posActual);
+            rightLinearActuator.set(posActual);
         });
-  }
+    }
 
-  public Command manualHoodPos() {
-    LoggedNetworkNumber pos = new LoggedNetworkNumber("/Shooter/Hood Position", 0.65);
-    return setHoodPos(() -> pos.get());
-  }
+    public Command manualHoodPos() {
+        LoggedNetworkNumber pos = new LoggedNetworkNumber("/Shooter/Hood Position", 0.65);
+        return setHoodPos(() -> pos.get());
+    }
 
-  @Override
-  public void periodic() {
-    // This method will be called once per scheduler run
-  }
+    @Override
+    public void periodic() {
+        // This method will be called once per scheduler run
+    }
 }
