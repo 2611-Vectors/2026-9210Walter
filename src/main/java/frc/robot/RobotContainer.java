@@ -196,6 +196,8 @@ public class RobotContainer {
         m_DriverController
                 .leftBumper()
                 .toggleOnTrue(new AutoTargetDriverControl(m_Drive, m_Shooter, m_DriverController));
+
+        // m_Intake.setDefaultCommand(m_Intake.manualPivotVoltage());
     }
 
     /**

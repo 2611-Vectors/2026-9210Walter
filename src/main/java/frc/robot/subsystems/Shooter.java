@@ -25,7 +25,6 @@ public class Shooter extends SubsystemBase {
 
     private final KrakenX60 rightMotor = new KrakenX60(ShooterConstants.RIGHT_MOTOR_ID);
 
-    // TODO: Tune and set defaults
     PidTuner shooterPidTuner = new PidTuner("/Shooter/", 0.2, 0.02, 0.0, 0.0, 0.12);
 
     // Max RPM / Seconds to max RPM
