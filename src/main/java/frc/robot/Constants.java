@@ -9,8 +9,7 @@ package frc.robot;
 
 import edu.wpi.first.apriltag.AprilTagFieldLayout;
 import edu.wpi.first.apriltag.AprilTagFields;
-import edu.wpi.first.math.geometry.Pose2d;
-import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
@@ -51,10 +50,15 @@ public final class Constants {
         public static final double LINEAR_ACTUATOR_MINIMUM = 0.65;
         public static final double LINEAR_ACTUATOR_MAXIMUM = 1.0;
 
-        public static final double TIP_TO_RPM = 250.637;
-        public static final double GRAVITATIONAL_CONSTANT = 9.8;
-        public static final double INITIAL_HEIGHT = 0.4862;
-        public static final double LAUNCH_ANGLE = 1.42;
+        public static final double SHOOTER_WHEEL_DIAMETER = Units.inchesToMeters(3.0);
+        public static final double TIP_TO_RPM = 60.0 / (Math.PI * SHOOTER_WHEEL_DIAMETER);
+        public static final double GRAVITATIONAL_CONSTANT = 9.8; // m/s
+        // 18.83 is 3.94 from floor to top of plate; 14.89 from shooter mount to top of 3.95" flywheel
+        public static final double INITIAL_HEIGHT =
+                0.4862; // I got 18.33" (0.465582m) from floor to top of flywheel (2.95")
+        public static final double LAUNCH_ANGLE =
+                1.42; // I'm getting 0.64 rad from cad & 0.74 rad deriving it from the old equation using a height
+        // differential of 1.312418 (70" - 18.33")
         public static final double LAUNCH_ANGLE_COS = 2 * Math.pow(Math.cos(LAUNCH_ANGLE), 2);
 
         public static final double MAXIMUM_RPM = 4500.0;
@@ -156,7 +160,10 @@ public final class Constants {
     }
 
     public static class FieldConstants {
-        public static final Pose2d HUB_POSITION =
-                new Pose2d(Units.inchesToMeters(182.11), Units.inchesToMeters(158.84), new Rotation2d());
+        public static final Pose3d HUB_POSITION = new Pose3d(
+                Units.inchesToMeters(182.11),
+                Units.inchesToMeters(158.84),
+                5.9,
+                new Rotation3d()); // Change 5.9 to 70" (2" below top of target)
     }
 }

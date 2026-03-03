@@ -5,6 +5,7 @@
 package frc.robot.commands;
 
 import static frc.robot.Constants.FieldConstants.HUB_POSITION;
+import static frc.robot.Constants.ShooterConstants.TIP_TO_RPM;
 
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
 import edu.wpi.first.wpilibj2.command.button.CommandXboxController;
@@ -22,12 +23,12 @@ public class AutoTargetDriverControl extends ParallelCommandGroup {
         // addCommands(new FooCommand(), new BarCommand());
 
         addCommands(
-                m_Shooter.setShooterRPM(() -> AutoMath.getShooterSpeedFromDistance(
-                        AutoMath.getDistanceToTarget(m_Drive.getPose(), HUB_POSITION))),
+                m_Shooter.setShooterRPM(
+                        () -> (AutoMath.getFuelSpeedToTarget(m_Drive.getPose(), HUB_POSITION) * TIP_TO_RPM)),
                 DriveCommands.joystickDriveAtAngle(
                         m_Drive,
                         () -> -m_DriverController.getLeftY(),
                         () -> -m_DriverController.getLeftX(),
-                        () -> AutoMath.getRobotAngleToTarget(m_Drive.getPose(), HUB_POSITION)));
+                        () -> AutoMath.getRobotAngleToTarget(m_Drive.getPose(), HUB_POSITION.toPose2d())));
     }
 }
