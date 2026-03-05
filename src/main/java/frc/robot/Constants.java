@@ -76,7 +76,7 @@ public final class Constants {
 
         public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
         public static final double PIVOT_IN_ANGLE = 1.5;
-        public static final double PIVOT_OUT_ANGLE = 125.0;
+        public static final double PIVOT_OUT_ANGLE = 120.0;
     }
 
     public static class TransitionConstants {

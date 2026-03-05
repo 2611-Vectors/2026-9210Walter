@@ -80,7 +80,7 @@ public class Intake extends SubsystemBase {
 
     public Command dumbIntakeOut() {
         return run(() -> {
-                    pivotMotor.setVoltage(5.0);
+                    pivotMotor.setVoltage(6.0);
                 })
                 .until(() -> pivotEncoder.get() >= IntakeConstants.PIVOT_OUT_ANGLE)
                 .andThen(() -> {

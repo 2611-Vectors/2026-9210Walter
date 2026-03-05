@@ -61,8 +61,8 @@ public class AutoTarget extends SequentialCommandGroup {
                         m_Shooter.setShooterRPM(() -> shooterSpeed.get()),
                         DriveCommands.joystickDriveAtAngle(m_Drive, () -> 0.0, () -> 0.0, () -> targetAngle.get()),
                         m_FullSend.setFullSendRPM(() -> 5000.0),
-                        m_Transition.setTransitionRPM(() -> 750.0, () -> 2500.0),
-                        m_Intake.setIntakeRPM(() -> 1000.0)));
+                        m_Transition.setTransitionRPM(() -> 750.0, () -> 1000.0),
+                        m_Intake.setIntakeRPM(() -> 500.0)));
     }
 
     public static double flipAngle(double angle) {
