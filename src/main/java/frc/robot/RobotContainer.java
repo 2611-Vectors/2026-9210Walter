@@ -196,6 +196,8 @@ public class RobotContainer {
                 .whileTrue(new ParallelCommandGroup(
                         m_FullSend.manualFullSendRPM(() -> true), m_Transition.manualTransitionRPM(() -> true)));
 
+        m_DriverController.leftTrigger().toggleOnTrue(m_Shooter.manualShooterRPM());
+        
         m_DriverController
                 .leftBumper()
                 .toggleOnTrue(
