@@ -6,27 +6,68 @@ package frc.robot.commands;
 
 import static frc.robot.Constants.FieldConstants.HUB_POSITION;
 
+import edu.wpi.first.math.geometry.Rotation2d;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
+import edu.wpi.first.wpilibj2.command.Commands;
 import edu.wpi.first.wpilibj2.command.ParallelCommandGroup;
+import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
+import frc.robot.Constants.AutoConstants;
+import frc.robot.subsystems.FullSend;
+import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
+import frc.robot.subsystems.Transition;
 import frc.robot.subsystems.drive.Drive;
 import frc.robot.util.AutoMath;
+import java.util.function.Supplier;
+import org.littletonrobotics.junction.Logger;
 
 // NOTE:  Consider using this command inline, rather than writing a subclass.  For more
 // information, see:
 // https://docs.wpilib.org/en/stable/docs/software/commandbased/convenience-features.html
-public class AutoTarget extends ParallelCommandGroup {
+public class AutoTarget extends SequentialCommandGroup {
     /** Creates a new AutoShooterDistance. */
-    public AutoTarget(Drive m_Drive, Shooter m_Shooter) {
+    public AutoTarget(Drive m_Drive, Shooter m_Shooter, Intake m_Intake, FullSend m_FullSend, Transition m_Transition) {
         // Add your commands in the addCommands() call, e.g.
         // addCommands(new FooCommand(), new BarCommand());
 
+        Supplier<Double> shooterSpeed = () ->
+                AutoMath.getShooterSpeedFromDistance(AutoMath.getDistanceToTarget(m_Drive.getPose(), HUB_POSITION));
+        Supplier<Rotation2d> targetAngle = () -> AutoMath.getRobotAngleToTarget(m_Drive.getPose(), HUB_POSITION);
+        Supplier<Double> correctedRobotAngle = () -> (Math.abs(
+                m_Drive.getRotation().getDegrees() > 0
+                        ? Math.abs(m_Drive.getRotation().getDegrees() - 180.0)
+                        : Math.abs(m_Drive.getRotation().getDegrees() + 180.0)));
+        Supplier<Double> correctedTargetAngle = () -> Math.abs(
+                DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red
+                        ? flipAngle(targetAngle.get().getDegrees())
+                        : targetAngle.get().getDegrees());
+        Supplier<Double> angleError = () -> correctedTargetAngle.get() - correctedRobotAngle.get();
+
         addCommands(
-                m_Shooter.setShooterRPM(() -> AutoMath.getShooterSpeedFromDistance(
-                        AutoMath.getDistanceToTarget(m_Drive.getPose(), HUB_POSITION))),
-                DriveCommands.joystickDriveAtAngle(
-                        m_Drive,
-                        () -> 0.0,
-                        () -> 0.0,
-                        () -> AutoMath.getRobotAngleToTarget(m_Drive.getPose(), HUB_POSITION)));
+                new ParallelCommandGroup(
+                                m_Shooter.setShooterRPM(() -> shooterSpeed.get()),
+                                DriveCommands.joystickDriveAtAngle(
+                                        m_Drive, () -> 0.0, () -> 0.0, () -> targetAngle.get()),
+                                Commands.run(() -> {
+                                    Logger.recordOutput("Targeting/Robot Angle", correctedRobotAngle.get());
+                                    Logger.recordOutput("Targeting/Target Angle", correctedTargetAngle.get());
+                                    Logger.recordOutput("Targeting/Angle Error", angleError.get());
+                                }))
+                        .until(() -> (m_Shooter.isAtSpeed() && angleError.get() <= AutoConstants.ROTATION_ERROR)),
+                new ParallelCommandGroup(
+                        m_Shooter.setShooterRPM(() -> shooterSpeed.get()),
+                        DriveCommands.joystickDriveAtAngle(m_Drive, () -> 0.0, () -> 0.0, () -> targetAngle.get()),
+                        m_FullSend.setFullSendRPM(() -> 5000.0),
+                        m_Transition.setTransitionRPM(() -> 750.0, () -> 2500.0),
+                        m_Intake.setIntakeRPM(() -> 1000.0)));
+    }
+
+    public static double flipAngle(double angle) {
+        double reflectedAngle = -180 - angle;
+        if (reflectedAngle < -180) {
+            return reflectedAngle + 360;
+        }
+        return reflectedAngle;
     }
 }

@@ -9,11 +9,15 @@ import static frc.robot.Constants.ShooterConstants.INITIAL_HEIGHT;
 import static frc.robot.Constants.ShooterConstants.LAUNCH_ANGLE;
 import static frc.robot.Constants.ShooterConstants.LAUNCH_ANGLE_COS;
 import static frc.robot.Constants.ShooterConstants.TIP_TO_RPM;
+import static frc.robot.Constants.VisionConstants.FIELD_HEIGHT;
+import static frc.robot.Constants.VisionConstants.FIELD_WIDTH;
 
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.math.geometry.Translation2d;
 import edu.wpi.first.math.kinematics.ChassisSpeeds;
+import edu.wpi.first.wpilibj.DriverStation;
+import edu.wpi.first.wpilibj.DriverStation.Alliance;
 import frc.robot.commands.PathfindToStart;
 import org.littletonrobotics.junction.Logger;
 
@@ -22,11 +26,12 @@ public class AutoMath {
     public AutoMath() {}
 
     public static Rotation2d getRobotAngleToTarget(Pose2d robotPose, Pose2d target) {
-        robotPose = PathfindToStart.flipRed(robotPose);
+        robotPose = flipRed(robotPose);
         double a = robotPose.getX() - target.getX();
         double b = robotPose.getY() - target.getY();
 
-        return new Rotation2d(Math.atan(b / a) + Math.PI);
+        return new Rotation2d(
+                Math.atan(b / a) + ((DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) ? Math.PI : 0));
     }
 
     public static double getDistanceToTarget(Pose2d robotPose, Pose2d target) {
@@ -60,5 +65,24 @@ public class AutoMath {
                 * Math.sqrt((GRAVITATIONAL_CONSTANT * (dist * dist))
                         / (LAUNCH_ANGLE_COS * (INITIAL_HEIGHT + Math.tan(LAUNCH_ANGLE) * dist - 5.9)));
         return a;
+    }
+
+    public static Pose2d flipRed(Pose2d point) {
+        if (DriverStation.getAlliance().orElse(Alliance.Blue) == Alliance.Red) {
+            point = (new Pose2d(
+                    FIELD_WIDTH - point.getX(),
+                    FIELD_HEIGHT - point.getY(),
+                    Rotation2d.fromDegrees(flipAngle(point.getRotation().getDegrees()))));
+        }
+
+        return point;
+    }
+
+    public static double flipAngle(double angle) {
+        double reflectedAngle = -180 - angle;
+        if (reflectedAngle < -180) {
+            return reflectedAngle + 360;
+        }
+        return reflectedAngle;
     }
 }

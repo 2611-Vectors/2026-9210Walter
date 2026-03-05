@@ -76,7 +76,7 @@ public final class Constants {
 
         public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
         public static final double PIVOT_IN_ANGLE = 1.5;
-        public static final double PIVOT_OUT_ANGLE = 132.0;
+        public static final double PIVOT_OUT_ANGLE = 125.0;
     }
 
     public static class TransitionConstants {
@@ -138,8 +138,8 @@ public final class Constants {
                 new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(-19)));
 
         // Basic filtering thresholds
-        public static double maxAmbiguity = 0.2;
-        public static double maxZError = 0.2;
+        public static final double MAX_AMBIGUITY = 0.2;
+        public static final double MAX_Z_ERROR = 0.2;
 
         // Standard deviation baselines, for 1 meter distance and 1 tag
         // (Adjusted automatically based on distance and # of tags)
@@ -158,5 +158,12 @@ public final class Constants {
     public static class FieldConstants {
         public static final Pose2d HUB_POSITION =
                 new Pose2d(Units.inchesToMeters(182.11), Units.inchesToMeters(158.84), new Rotation2d());
+    }
+
+    public static class AutoConstants {
+        public static final double ROBOT_MASS_KG = Units.lbsToKilograms(137.95);
+        public static final double ROBOT_MOI = 4.9; // was 6.883
+        public static final double WHEEL_COF_FRICTION = 2.255;
+        public static final double ROTATION_ERROR = 2.0;
     }
 }

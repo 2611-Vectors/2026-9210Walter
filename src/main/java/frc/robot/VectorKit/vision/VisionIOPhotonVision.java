@@ -172,7 +172,7 @@ public class VisionIOPhotonVision implements VisionIO {
         // Add pose observation
         if (result.multitagResult.isPresent()) { // Multitag result
             for (var target : result.getTargets()) {
-                if (target.getPoseAmbiguity() < maxAmbiguity) {
+                if (target.getPoseAmbiguity() < MAX_AMBIGUITY) {
                     var tagPose = aprilTagLayout.getTagPose(target.fiducialId);
                     if (tagPose.isPresent()) {
                         Transform3d fieldToTarget = new Transform3d(
@@ -186,7 +186,7 @@ public class VisionIOPhotonVision implements VisionIO {
         } else if (!result.targets.isEmpty()) { // Single tag result
 
             var target = result.targets.get(0);
-            if (target.getPoseAmbiguity() < maxAmbiguity) {
+            if (target.getPoseAmbiguity() < MAX_AMBIGUITY) {
                 var tagPose = aprilTagLayout.getTagPose(target.fiducialId);
                 if (tagPose.isPresent()) {
                     Transform3d fieldToTarget = new Transform3d(

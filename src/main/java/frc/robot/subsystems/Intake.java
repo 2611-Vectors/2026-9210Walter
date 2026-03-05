@@ -36,6 +36,7 @@ public class Intake extends SubsystemBase {
     public Intake() {
         pivotEncoder.setInverted(true);
         pivotMotor.setBrakeMode(NeutralModeValue.Coast);
+        pivotMotor.setInverted(InvertedValue.Clockwise_Positive);
         intakeMotor.setInverted(InvertedValue.CounterClockwise_Positive);
     }
 
@@ -74,6 +75,19 @@ public class Intake extends SubsystemBase {
                 })
                 .handleInterrupt(() -> {
                     intakeMotor.setVoltage(0.0);
+                });
+    }
+
+    public Command dumbIntakeOut() {
+        return run(() -> {
+                    pivotMotor.setVoltage(5.0);
+                })
+                .until(() -> pivotEncoder.get() >= IntakeConstants.PIVOT_OUT_ANGLE)
+                .andThen(() -> {
+                    pivotMotor.setVoltage(0.0);
+                })
+                .handleInterrupt(() -> {
+                    pivotMotor.setVoltage(0.0);
                 });
     }
 

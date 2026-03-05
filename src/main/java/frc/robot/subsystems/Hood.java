@@ -20,7 +20,7 @@ public class Hood extends SubsystemBase {
     public Hood() {}
 
     public Command setHoodPos(Supplier<Double> pos) {
-        return run(() -> {
+        return runOnce(() -> {
             double posActual = pos.get(); // 0.65 is our current minimum (2/26)
             if (posActual < ShooterConstants.LINEAR_ACTUATOR_MINIMUM)
                 posActual = ShooterConstants.LINEAR_ACTUATOR_MINIMUM;

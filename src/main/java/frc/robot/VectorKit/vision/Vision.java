@@ -17,6 +17,7 @@ import static frc.robot.Constants.VisionConstants.*;
 
 import edu.wpi.first.math.Matrix;
 import edu.wpi.first.math.VecBuilder;
+import edu.wpi.first.math.filter.LinearFilter;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Pose3d;
 import edu.wpi.first.math.geometry.Rotation2d;
@@ -28,7 +29,7 @@ import edu.wpi.first.math.numbers.N3;
 import edu.wpi.first.wpilibj.Alert;
 import edu.wpi.first.wpilibj.Alert.AlertType;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
-import frc.robot.Constants;
+import frc.robot.Constants.VisionConstants;
 import frc.robot.VectorKit.vision.VisionIO.PoseObservationType;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -44,8 +45,8 @@ public class Vision extends SubsystemBase {
     private final VisionIOInputsAutoLogged[] inputs;
     private final Alert[] disconnectedAlerts;
 
-    // LinearFilter filterY = LinearFilter.movingAverage(5);
-    // LinearFilter filterX = LinearFilter.movingAverage(5);
+    LinearFilter filterY = LinearFilter.movingAverage(5);
+    LinearFilter filterX = LinearFilter.movingAverage(5);
 
     public Vision(VisionConsumer consumer, VisionIO... io) {
         this.consumer = consumer;
@@ -74,9 +75,8 @@ public class Vision extends SubsystemBase {
         return inputs[cameraIndex].latestTargetObservation.tx();
     }
 
-    LoggedNetworkNumber ambiguity =
-            new LoggedNetworkNumber("Vision/Tuning/Ambiguity", Constants.VisionConstants.maxAmbiguity);
-    LoggedNetworkNumber zError = new LoggedNetworkNumber("Vision/Tuning/zError", 0.2);
+    LoggedNetworkNumber ambiguity = new LoggedNetworkNumber("Vision/Tuning/Ambiguity", VisionConstants.MAX_AMBIGUITY);
+    LoggedNetworkNumber zError = new LoggedNetworkNumber("Vision/Tuning/zError", VisionConstants.MAX_Z_ERROR);
 
     @Override
     public void periodic() {
@@ -114,10 +114,8 @@ public class Vision extends SubsystemBase {
             for (var observation : inputs[cameraIndex].poseObservations) {
                 // Check whether to reject pose
                 boolean rejectPose = observation.tagCount() == 0 // Must have at least one tag
-                        || observation.ambiguity() > maxAmbiguity
-                        // || (observation.tagCount() == 1
-                        //     && observation.ambiguity() > maxAmbiguity) // Cannot be high ambiguity
-                        || Math.abs(observation.pose().getZ()) > maxZError // Must have realistic Z coordinate
+                        || observation.ambiguity() > ambiguity.get() // Must be low ambiguity
+                        || Math.abs(observation.pose().getZ()) > zError.get() // Must have realistic Z coordinate
 
                         // Must be within the field boundaries
                         || observation.pose().getX() < 0.0
@@ -151,18 +149,12 @@ public class Vision extends SubsystemBase {
                     angularStdDev *= cameraStdDevFactors[cameraIndex];
                 }
 
-                // Pose2d visonPose2d = observation.pose().toPose2d();
-                // double x = filterX.calculate(visonPose2d.getX());
-                // double y = filterY.calculate(visonPose2d.getY());
-
-                // Logger.recordOutput(
-                //     "TestOdometry/FilterPosition",
-                //     observation.pose().toPose2d()); // new Pose2d(x, y, visonPose2d.getRotation()));
-                // Send vision observation
+                Pose2d currentPose = observation.pose().toPose2d();
+                double newX = filterX.calculate(currentPose.getX());
+                double newY = filterY.calculate(currentPose.getY());
 
                 consumer.accept(
-                        observation.pose().toPose2d(),
-                        // new Pose2d(x, y, visonPose2d.getRotation()),
+                        new Pose2d(newX, newY, currentPose.getRotation()),
                         observation.timestamp(),
                         VecBuilder.fill(linearStdDev, linearStdDev, angularStdDev));
             }
@@ -195,8 +187,6 @@ public class Vision extends SubsystemBase {
         Logger.recordOutput(
                 "Vision/Summary/RobotPosesRejected",
                 allRobotPosesRejected.toArray(new Pose3d[allRobotPosesRejected.size()]));
-        Constants.VisionConstants.maxAmbiguity = ambiguity.get();
-        Constants.VisionConstants.maxZError = zError.get();
     }
 
     public void calculateTagPositions(Supplier<Pose2d> robotPoseSupplier) {
@@ -216,79 +206,6 @@ public class Vision extends SubsystemBase {
             }
         }
     }
-
-    // private Pose2d startRobotPose = new Pose2d();
-
-    // public void setPose(Pose2d pose) {
-    //   startRobotPose = pose;
-    // }
-
-    // public void calculateCameraPositions(Supplier<Pose2d> robotPoseSupplier) {
-    //   Logger.recordOutput("Vision/AutoCameraConfig/RobotPose", startRobotPose);
-    //   Logger.recordOutput("Vision/AutoCameraConfig/Camera 0 Current Location/",
-    // robotToBatterySdsCam);
-    //   Logger.recordOutput(
-    //       "Vision/AutoCameraConfig/Camera 0 Current Angles/",
-    //       String.format(
-    //           "roll: %.2f, pitch: %.2f, yaw: %.2f",
-    //           robotToBatterySdsCam.getRotation().getMeasureX().magnitude(),
-    //           robotToBatterySdsCam.getRotation().getMeasureY().magnitude(),
-    //           robotToBatterySdsCam.getRotation().getMeasureZ().magnitude()));
-    //   Logger.recordOutput(
-    //       "Vision/AutoCameraConfig/Camera 1 Current Location/", robotToIntakeElevatorCam);
-    //   Logger.recordOutput(
-    //       "Vision/AutoCameraConfig/Camera 1 Current Angles/",
-    //       String.format(
-    //           "roll: %.2f, pitch: %.2f, yaw: %.2f",
-    //           robotToIntakeElevatorCam.getRotation().getMeasureX().magnitude(),
-    //           robotToIntakeElevatorCam.getRotation().getMeasureY().magnitude(),
-    //           robotToIntakeElevatorCam.getRotation().getMeasureZ().magnitude()));
-    //   for (int i = 0; i < io.length; i++) {
-    //     HashMap<Integer, Transform3d> robotToCamera = io[i].getCameraRelativeToRobot(inputs[i]);
-    //     Pose2d robotPose =
-    //         new Pose2d(
-    //             startRobotPose.getX(), startRobotPose.getY(),
-    // robotPoseSupplier.get().getRotation());
-    //     Pose3d robotPose3d =
-    //         new Pose3d(
-    //             new Translation3d(robotPose.getX(), robotPose.getY(), 0.0),
-    //             new Rotation3d(0.0, 0.0, robotPose.getRotation().getRadians()));
-    //     Transform3d fieldToRobot =
-    //         new Transform3d(robotPose3d.getTranslation(), robotPose3d.getRotation());
-    //     for (Map.Entry<Integer, Transform3d> entry : robotToCamera.entrySet()) {
-    //       Transform3d cameraTransform = fieldToRobot.inverse().plus(entry.getValue());
-    //       Logger.recordOutput(
-    //           "Vision/AutoCameraConfig/Camera"
-    //               + Integer.toString(i)
-    //               + " Camera Location/Tag ID"
-    //               + entry.getKey(),
-    //           cameraTransform);
-    //       Logger.recordOutput(
-    //           "Vision/AutoCameraConfig/Camera"
-    //               + Integer.toString(i)
-    //               + " Camera Location/Tag ID"
-    //               + entry.getKey()
-    //               + " roll",
-    //           Math.toDegrees(cameraTransform.getRotation().getMeasureX().magnitude()));
-
-    //       Logger.recordOutput(
-    //           "Vision/AutoCameraConfig/Camera"
-    //               + Integer.toString(i)
-    //               + " Camera Location/Tag ID"
-    //               + entry.getKey()
-    //               + " pitch",
-    //           Math.toDegrees(cameraTransform.getRotation().getMeasureY().magnitude()));
-
-    //       Logger.recordOutput(
-    //           "Vision/AutoCameraConfig/Camera"
-    //               + Integer.toString(i)
-    //               + " Camera Location/Tag ID"
-    //               + entry.getKey()
-    //               + " yaw",
-    //           Math.toDegrees(cameraTransform.getRotation().getMeasureZ().magnitude()));
-    //     }
-    //   }
-    // }
 
     @FunctionalInterface
     public static interface VisionConsumer {

@@ -118,10 +118,13 @@ public class RobotContainer {
                 break;
         }
 
-        NamedCommands.registerCommand("autoTarget", new AutoTarget(m_Drive, m_Shooter));
+        NamedCommands.registerCommand(
+                "autoTarget", new AutoTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
         NamedCommands.registerCommand("runIntake", m_Intake.setIntakeRPM(() -> 2000.0));
-        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 1000.0, () -> 3000.0));
+        NamedCommands.registerCommand("stopIntake", m_Intake.setIntakeVoltage(() -> 0.0));
+        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 0.0, () -> 1000.0));
         NamedCommands.registerCommand("runFullSend", m_FullSend.setFullSendRPM(() -> 5000.0));
+        NamedCommands.registerCommand("intakeOut", m_Intake.dumbIntakeOut());
         NamedCommands.registerCommand("resetHood", m_Hood.setHoodPos(() -> 0.65));
 
         // Set up auto routines
@@ -195,9 +198,10 @@ public class RobotContainer {
 
         m_DriverController
                 .leftBumper()
-                .toggleOnTrue(new AutoTargetDriverControl(m_Drive, m_Shooter, m_DriverController));
+                .toggleOnTrue(
+                        new AutoTargetDriverControl(m_Drive, m_Shooter, m_FullSend, m_Transition, m_DriverController));
 
-        // m_Intake.setDefaultCommand(m_Intake.manualPivotVoltage());
+        m_OperatorController.a().whileTrue(m_Intake.dumbIntakeOut());
     }
 
     /**

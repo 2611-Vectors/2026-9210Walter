@@ -5,12 +5,12 @@
 package frc.robot.subsystems;
 
 import static edu.wpi.first.units.Units.RPM;
+import static edu.wpi.first.units.Units.RotationsPerSecond;
 
 import com.ctre.phoenix6.signals.InvertedValue;
 import com.ctre.phoenix6.signals.MotorAlignmentValue;
 import edu.wpi.first.math.filter.SlewRateLimiter;
 import edu.wpi.first.wpilibj2.command.Command;
-import edu.wpi.first.wpilibj2.command.SequentialCommandGroup;
 import edu.wpi.first.wpilibj2.command.SubsystemBase;
 import frc.robot.Constants.ShooterConstants;
 import frc.robot.VectorKit.hardware.KrakenX60;
@@ -51,17 +51,19 @@ public class Shooter extends SubsystemBase {
     }
 
     public Command manualShooterRPM() {
-        return new SequentialCommandGroup(
-                        runOnce(() -> {
-                            RPMSlew.reset(leftMotor.getVelocity().getValueAsDouble() * 60);
-                        }),
-                        run(() -> {
-                            double filtered = RPMSlew.calculate(manualRPM.get());
-                            leftMotor.setVelocity(filtered, RPM);
-                        }))
+        return run(() -> {
+                    leftMotor.setVelocity(manualRPM.get(), RPM);
+                })
                 .handleInterrupt(() -> {
                     leftMotor.set(0.0);
                 });
+    }
+
+    public Boolean isAtSpeed() {
+        boolean atSpeed =
+                RPM.convertFrom(leftMotor.getVelocity().getValueAsDouble(), RotationsPerSecond) >= manualRPM.get();
+        Logger.recordOutput("/Shooter/At Speed", atSpeed);
+        return atSpeed;
     }
 
     @Override
