@@ -9,7 +9,6 @@ package frc.robot;
 
 import com.pathplanner.lib.auto.AutoBuilder;
 import com.pathplanner.lib.auto.NamedCommands;
-import com.pathplanner.lib.commands.PathPlannerAuto;
 import edu.wpi.first.math.geometry.Pose2d;
 import edu.wpi.first.math.geometry.Rotation2d;
 import edu.wpi.first.wpilibj.GenericHID;
@@ -26,7 +25,6 @@ import frc.robot.VectorKit.vision.VisionIOPhotonVision;
 import frc.robot.commands.AutoTarget;
 import frc.robot.commands.AutoTargetDriverControl;
 import frc.robot.commands.DriveCommands;
-import frc.robot.commands.PathfindToStart;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.FullSend;
 import frc.robot.subsystems.Hood;
@@ -88,8 +86,7 @@ public class RobotContainer {
 
                 m_Vision = new Vision(
                         m_Drive::addVisionMeasurement,
-                        new VisionIOPhotonVision(VisionConstants.RightRearCam, VisionConstants.robotToRightRearCam),
-                        new VisionIOPhotonVision(VisionConstants.LeftRearCam, VisionConstants.robotToLeftRearCam),
+                        new VisionIOPhotonVision(VisionConstants.RearCam, VisionConstants.robotToRearCam),
                         new VisionIOPhotonVision(VisionConstants.RightFrontCam, VisionConstants.robotToRightFrontCam),
                         new VisionIOPhotonVision(VisionConstants.LeftFrontCam, VisionConstants.robotToLeftFrontCam));
 
@@ -212,6 +209,7 @@ public class RobotContainer {
      * @return the command to run in autonomous
      */
     public Command getAutonomousCommand() {
-        return new PathfindToStart(new PathPlannerAuto(autoChooser.get().getName()));
+        // return new PathfindToStart(new PathPlannerAuto(autoChooser.get().getName()));
+        return null;
     }
 }
