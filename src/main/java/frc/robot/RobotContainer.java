@@ -22,6 +22,7 @@ import frc.robot.Constants.ControllerConstants;
 import frc.robot.Constants.VisionConstants;
 import frc.robot.VectorKit.vision.Vision;
 import frc.robot.VectorKit.vision.VisionIOPhotonVision;
+import frc.robot.VectorKit.vision.VisionIOPhotonVisionSim;
 import frc.robot.commands.AutoTarget;
 import frc.robot.commands.AutoTargetDriverControl;
 import frc.robot.commands.DriveCommands;
@@ -89,7 +90,6 @@ public class RobotContainer {
                         new VisionIOPhotonVision(VisionConstants.RearCam, VisionConstants.robotToRearCam),
                         new VisionIOPhotonVision(VisionConstants.RightFrontCam, VisionConstants.robotToRightFrontCam),
                         new VisionIOPhotonVision(VisionConstants.LeftFrontCam, VisionConstants.robotToLeftFrontCam));
-
                 break;
 
             case SIM:
@@ -101,7 +101,14 @@ public class RobotContainer {
                         new ModuleIOSim(TunerConstants.BackLeft),
                         new ModuleIOSim(TunerConstants.BackRight));
 
-                m_Vision = null;
+                m_Vision = new Vision(
+                        m_Drive::addVisionMeasurement,
+                        new VisionIOPhotonVisionSim(
+                                VisionConstants.RearCam, VisionConstants.robotToRearCam, m_Drive::getPose),
+                        new VisionIOPhotonVisionSim(
+                                VisionConstants.RightFrontCam, VisionConstants.robotToRightFrontCam, m_Drive::getPose),
+                        new VisionIOPhotonVisionSim(
+                                VisionConstants.LeftFrontCam, VisionConstants.robotToLeftFrontCam, m_Drive::getPose));
 
                 break;
 

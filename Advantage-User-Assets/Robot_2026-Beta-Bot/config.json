@@ -1,0 +1,9 @@
+{
+  "name": "2026-9210-Cameras",
+  "rotations": [
+    {"axis": "z", "degrees": -90}
+  ],
+  "position": [0, 0, 0.095758],
+  "cameras": [],
+  "components": []
+}

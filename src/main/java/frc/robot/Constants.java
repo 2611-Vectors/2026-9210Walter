@@ -14,6 +14,7 @@ import edu.wpi.first.math.geometry.Rotation3d;
 import edu.wpi.first.math.geometry.Transform3d;
 import edu.wpi.first.math.util.Units;
 import edu.wpi.first.wpilibj.RobotBase;
+import frc.robot.generated.TunerConstants;
 
 /**
  * This class defines the runtime mode used by AdvantageKit. The mode is always "real" when running
@@ -94,29 +95,38 @@ public final class Constants {
         public static final double FIELD_WIDTH = 16.541;
         public static final double FIELD_HEIGHT = 8.069;
 
+        public static final Transform3d groundToRobotTopPlate = new Transform3d(
+                Units.inchesToMeters(0),
+                Units.inchesToMeters(0),
+                Units.inchesToMeters(1.77) + TunerConstants.FrontLeft.WheelRadius,
+                new Rotation3d());
+
         public static final String RightFrontCam = "Camera8";
 
         public static final Transform3d robotToRightFrontCam = new Transform3d(
-                Units.inchesToMeters(11.739),
-                Units.inchesToMeters(-16.058),
-                Units.inchesToMeters(9.524),
-                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(-19)));
+                        Units.inchesToMeters(-9.52),
+                        Units.inchesToMeters(-11.74),
+                        Units.inchesToMeters(16.06),
+                        new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(-19)))
+                .plus(groundToRobotTopPlate);
 
         public static final String LeftFrontCam = "Camera7";
 
         public static final Transform3d robotToLeftFrontCam = new Transform3d(
-                Units.inchesToMeters(11.739),
-                Units.inchesToMeters(16.058),
-                Units.inchesToMeters(9.524),
-                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(19)));
+                        Units.inchesToMeters(-9.52),
+                        Units.inchesToMeters(11.74),
+                        Units.inchesToMeters(16.06),
+                        new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(19)))
+                .plus(groundToRobotTopPlate);
 
         public static final String RearCam = "Camera9";
         // this cam is on the right side
         public static final Transform3d robotToRearCam = new Transform3d(
-                Units.inchesToMeters(11.316),
-                Units.inchesToMeters(-15.912),
-                Units.inchesToMeters(9.524),
-                new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(179)));
+                        Units.inchesToMeters(-13.1),
+                        Units.inchesToMeters(-11.33),
+                        Units.inchesToMeters(16.06),
+                        new Rotation3d(0.0, Math.toRadians(-10), Math.toRadians(179)))
+                .plus(groundToRobotTopPlate);
 
         // Basic filtering thresholds
         public static final double MAX_AMBIGUITY = 0.2;
