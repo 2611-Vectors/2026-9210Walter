@@ -52,7 +52,7 @@ public final class Constants {
         public static final double LINEAR_ACTUATOR_MAXIMUM = 1.0;
 
         public static final double SHOOTER_WHEEL_DIAMETER = Units.inchesToMeters(3.0);
-        public static final double TIP_TO_RPM = 440.0;
+        public static final double TIP_TO_RPM = 465.0;
         public static final double GRAVITATIONAL_CONSTANT = 9.8; // m/s
         public static final double INITIAL_HEIGHT = Units.inchesToMeters(18.33);
         public static final double LAUNCH_ANGLE = 0.93;
@@ -69,8 +69,8 @@ public final class Constants {
         public static final int PIVOT_MOTOR_ID = 32;
         public static final int WHEEL_MOTOR_ID = 31;
 
-        public static final int PIVOT_ENCODER_ID = 0;
-        public static final double PIVOT_ENCODER_OFFSET = 304.0;
+        public static final int PIVOT_ENCODER_ID = 9;
+        public static final double PIVOT_ENCODER_OFFSET = 140.0;
 
         public static final double PIVOT_GEAR_RATIO = 1.0 / 25.0;
         public static final double INTAKE_GEAR_RATIO = 1.0;

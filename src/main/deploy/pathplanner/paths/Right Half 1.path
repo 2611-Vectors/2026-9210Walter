@@ -21,7 +21,7 @@
       },
       "prevControl": {
         "x": 4.5,
-        "y": 0.65
+        "y": 0.6500000000000001
       },
       "nextControl": {
         "x": 7.5,
@@ -61,16 +61,26 @@
       "name": "intakeOut",
       "waypointRelativePos": 0.2,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "intakeOut"
+        }
+      }
     },
     {
       "name": "runIntake",
       "waypointRelativePos": 1.3,
       "endWaypointRelativePos": null,
-      "command": null
+      "command": {
+        "type": "named",
+        "data": {
+          "name": "runIntake"
+        }
+      }
     },
     {
-      "name": "runIntake",
+      "name": "stopIntake",
       "waypointRelativePos": 2.0,
       "endWaypointRelativePos": null,
       "command": {
