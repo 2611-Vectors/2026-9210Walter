@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5,
+        "y": 7.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 3.8703833333333337,
+        "y": 7.518638888888889
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.877738888888888,
+        "y": 7.265283333333333
+      },
+      "prevControl": {
+        "x": 5.372474509645318,
+        "y": 7.596512204170787
+      },
+      "nextControl": {
+        "x": 6.316238888888886,
+        "y": 6.97782222222222
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.462405555555556,
+        "y": 5.6769388888888885
+      },
+      "prevControl": {
+        "x": 6.311366666666668,
+        "y": 6.334688888888889
+      },
+      "nextControl": {
+        "x": 6.638825712066413,
+        "y": 4.9086575621480515
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.647550000002378,
+        "y": 3.620861111114589
+      },
+      "prevControl": {
+        "x": 6.506255555555556,
+        "y": 4.283483333333333
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Refuel Midpoint"
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "runIntake",
+      "waypointRelativePos": 1.2,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": "Left",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

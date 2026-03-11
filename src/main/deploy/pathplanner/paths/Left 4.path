@@ -1,0 +1,93 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 6.647550000002378,
+        "y": 3.620861111114589
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 6.48676666667022,
+        "y": 4.580688888885413
+      },
+      "isLocked": false,
+      "linkedName": "Refuel Midpoint"
+    },
+    {
+      "anchor": {
+        "x": 6.316238888892441,
+        "y": 6.276222222218746
+      },
+      "prevControl": {
+        "x": 6.516473605656027,
+        "y": 5.913478170112563
+      },
+      "nextControl": {
+        "x": 5.9800555555555555,
+        "y": 6.88525
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 5.020227777781332,
+        "y": 7.44555555555208
+      },
+      "prevControl": {
+        "x": 5.55581508511786,
+        "y": 7.419554837642091
+      },
+      "nextControl": {
+        "x": 4.435561111114665,
+        "y": 7.473938888881937
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 3.5,
+        "y": 7.5
+      },
+      "prevControl": {
+        "x": 4.211438888888889,
+        "y": 7.489405555555555
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": null
+    }
+  ],
+  "rotationTargets": [],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 0.5,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "reversed": false,
+  "folder": "Left",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

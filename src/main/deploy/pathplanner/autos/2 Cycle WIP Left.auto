@@ -13,13 +13,31 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left Half 1"
+            "pathName": "Left 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left Half 2"
+            "pathName": "Left 2"
+          }
+        },
+        {
+          "type": "named",
+          "data": {
+            "name": "autoTarget"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left 3"
+          }
+        },
+        {
+          "type": "path",
+          "data": {
+            "pathName": "Left 4"
           }
         },
         {
