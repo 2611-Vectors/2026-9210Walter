@@ -28,7 +28,6 @@ public class Intake extends SubsystemBase {
     private final AbsoluteEncoder pivotEncoder =
             new AbsoluteEncoder(IntakeConstants.PIVOT_ENCODER_ID, IntakeConstants.PIVOT_ENCODER_OFFSET);
 
-    // TODO: Tune and set defaults
     private final PidTuner intakePidTuner = new PidTuner("/Intake/", 0.1, 0.02, 0.0, 0.0, 0.13);
     private final TunablePidController pivotController =
             new TunablePidController("/Intake/Pivot/", 0.0, 0.0, 0.0, 0.0, 0.0, 0.0);

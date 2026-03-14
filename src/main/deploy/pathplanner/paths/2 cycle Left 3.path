@@ -1,0 +1,116 @@
+{
+  "version": "2025.0",
+  "waypoints": [
+    {
+      "anchor": {
+        "x": 3.5,
+        "y": 7.5
+      },
+      "prevControl": null,
+      "nextControl": {
+        "x": 5.254094444444445,
+        "y": 7.469916666666666
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 8.299233333333333,
+        "y": 6.295711111111111
+      },
+      "prevControl": {
+        "x": 8.265127777777778,
+        "y": 7.635572222222223
+      },
+      "nextControl": {
+        "x": 8.333371998571776,
+        "y": 4.9545492624579905
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.749866666666668,
+        "y": 4.838916666666666
+      },
+      "prevControl": {
+        "x": 7.4073621088901,
+        "y": 4.812080118004486
+      },
+      "nextControl": {
+        "x": 5.7949111111111105,
+        "y": 4.8778944444444425
+      },
+      "isLocked": false,
+      "linkedName": null
+    },
+    {
+      "anchor": {
+        "x": 6.116477777777778,
+        "y": 7.5
+      },
+      "prevControl": {
+        "x": 6.061354629158386,
+        "y": 6.600590742682634
+      },
+      "nextControl": null,
+      "isLocked": false,
+      "linkedName": "Refuel Endpoint"
+    }
+  ],
+  "rotationTargets": [
+    {
+      "waypointRelativePos": 0.42821576763484875,
+      "rotationDegrees": -90.0
+    },
+    {
+      "waypointRelativePos": 0.7493775933609982,
+      "rotationDegrees": -45.0
+    },
+    {
+      "waypointRelativePos": 1.7153526970954367,
+      "rotationDegrees": -170.8729125347517
+    },
+    {
+      "waypointRelativePos": 2.531950207468885,
+      "rotationDegrees": 90.62129582100403
+    }
+  ],
+  "constraintZones": [],
+  "pointTowardsZones": [],
+  "eventMarkers": [
+    {
+      "name": "runIntake",
+      "waypointRelativePos": 0.4138957816377309,
+      "endWaypointRelativePos": null,
+      "command": null
+    },
+    {
+      "name": "stopIntake",
+      "waypointRelativePos": 2.870471464019854,
+      "endWaypointRelativePos": null,
+      "command": null
+    }
+  ],
+  "globalConstraints": {
+    "maxVelocity": 3.0,
+    "maxAcceleration": 2.5,
+    "maxAngularVelocity": 360.0,
+    "maxAngularAcceleration": 180.0,
+    "nominalVoltage": 12.0,
+    "unlimited": false
+  },
+  "goalEndState": {
+    "velocity": 0,
+    "rotation": 0.0
+  },
+  "reversed": false,
+  "folder": "Left",
+  "idealStartingState": {
+    "velocity": 0,
+    "rotation": -90.0
+  },
+  "useDefaultConstraints": true
+}

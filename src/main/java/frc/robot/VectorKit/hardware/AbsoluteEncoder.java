@@ -50,7 +50,6 @@ public class AbsoluteEncoder extends DutyCycleEncoder {
         return super.get();
     }
 
-    // TODO: Use simulated state as a sanity check
     @Override
     public double get() {
         if (Utils.isSimulation()) return getSim();

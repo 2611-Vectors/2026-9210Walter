@@ -31,7 +31,6 @@ public class PathfindToStart extends SequentialCommandGroup {
                     FIELD_HEIGHT - point.getY(),
                     Rotation2d.fromDegrees(flipAngle(point.getRotation().getDegrees()))));
         }
-
         return point;
     }
 

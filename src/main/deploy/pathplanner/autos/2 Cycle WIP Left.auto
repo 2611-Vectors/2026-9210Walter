@@ -13,31 +13,44 @@
         {
           "type": "path",
           "data": {
-            "pathName": "Left 1"
+            "pathName": "2 cycle Left 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left 2"
+            "pathName": "2 cycle Left 2"
           }
         },
         {
-          "type": "named",
+          "type": "race",
           "data": {
-            "name": "autoTarget"
+            "commands": [
+              {
+                "type": "named",
+                "data": {
+                  "name": "autoTarget"
+                }
+              },
+              {
+                "type": "wait",
+                "data": {
+                  "waitTime": 3.0
+                }
+              }
+            ]
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left 3"
+            "pathName": "2 cycle Left 3"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "Left 4"
+            "pathName": "2 cycle Left 4"
           }
         },
         {
@@ -50,6 +63,6 @@
     }
   },
   "resetOdom": false,
-  "folder": null,
+  "folder": "Left",
   "choreoAuto": false
 }

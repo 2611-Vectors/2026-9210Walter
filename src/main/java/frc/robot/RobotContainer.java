@@ -57,6 +57,7 @@ public class RobotContainer {
     private final FullSend m_FullSend;
     private final Hood m_Hood;
     private final Vision m_Vision;
+    //            that is lying ^
 
     // Controller
     private final CommandXboxController m_DriverController =
@@ -219,5 +220,6 @@ public class RobotContainer {
      */
     public Command getAutonomousCommand() {
         return new PathfindToStart(new PathPlannerAuto(autoChooser.get().getName()));
+        // return autoChooser.get();
     }
 }

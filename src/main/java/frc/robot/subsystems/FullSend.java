@@ -20,7 +20,6 @@ public class FullSend extends SubsystemBase {
     /** Creates a new FullSend. */
     private final KrakenX60 fullSendMotor = new KrakenX60(FullSendConstants.MAIN_MOTOR_ID);
 
-    // TODO: Tune and set defaults
     private final PidTuner fullSendPidTuner = new PidTuner("/FullSend/", 0.1, 0.02, 0.0, 0.0, 0.11);
 
     public FullSend() {
