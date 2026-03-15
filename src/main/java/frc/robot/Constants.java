@@ -155,7 +155,7 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final double ROBOT_MASS_KG = Units.lbsToKilograms(137.95);
+        public static final double ROBOT_MASS_KG = Units.lbsToKilograms(114);
         public static final double ROBOT_MOI = 4.9;
         public static final double WHEEL_COF_FRICTION = 2.255;
         public static final double ROTATION_ERROR = 2.0;

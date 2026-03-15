@@ -1,8 +1,10 @@
 package frc.robot.VectorKit.hardware;
 
+import static edu.wpi.first.units.Units.RPM;
 import static edu.wpi.first.units.Units.RotationsPerSecond;
 import static edu.wpi.first.units.Units.Volts;
 
+import com.ctre.phoenix6.configs.CurrentLimitsConfigs;
 import com.ctre.phoenix6.configs.MotorOutputConfigs;
 import com.ctre.phoenix6.configs.Slot0Configs;
 import com.ctre.phoenix6.controls.Follower;
@@ -24,6 +26,7 @@ import org.littletonrobotics.junction.Logger;
 
 public class KrakenX60 extends TalonFX {
     private final Slot0Configs slot0Configs = new Slot0Configs();
+    private final CurrentLimitsConfigs talonCurrentConfigs = new CurrentLimitsConfigs();
     private final MotorOutputConfigs motorOutputConfigs = new MotorOutputConfigs();
     private final Supplier<TalonFXSimState> m_simState;
     private final Timer m_simTimer;
@@ -63,6 +66,10 @@ public class KrakenX60 extends TalonFX {
 
         m_simState.get().setRawRotorPosition(m_sim.getAngularPosition());
         m_simState.get().setRotorVelocity(m_sim.getAngularVelocity());
+    }
+
+    public double getRPM() {
+        return RPM.convertFrom(super.getVelocity().getValueAsDouble(), RotationsPerSecond);
     }
 
     public void setVelocity(double vel, AngularVelocityUnit unit) {
@@ -146,5 +153,21 @@ public class KrakenX60 extends TalonFX {
         slot0Configs.kS = tuner.getS();
 
         super.getConfigurator().apply(slot0Configs);
+    }
+
+    public void setSupplyCurrentLimit(double maxAmps, double minAmps, double seconds) {
+        talonCurrentConfigs.withSupplyCurrentLimitEnable(minAmps > 0 && maxAmps > 0);
+        talonCurrentConfigs.withSupplyCurrentLimit(maxAmps);
+        talonCurrentConfigs.withSupplyCurrentLowerLimit(minAmps);
+        talonCurrentConfigs.withSupplyCurrentLowerTime(seconds);
+
+        super.getConfigurator().apply(talonCurrentConfigs);
+    }
+
+    public void setStatorCurrentLimit(double amps) {
+        talonCurrentConfigs.withStatorCurrentLimitEnable(amps > 0);
+        talonCurrentConfigs.withStatorCurrentLimit(amps);
+
+        super.getConfigurator().apply(talonCurrentConfigs);
     }
 }

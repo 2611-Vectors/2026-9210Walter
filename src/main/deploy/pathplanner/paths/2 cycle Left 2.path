@@ -3,13 +3,13 @@
   "waypoints": [
     {
       "anchor": {
-        "x": 8.474633333332429,
-        "y": 4.512477777783505
+        "x": 7.816883333333333,
+        "y": 4.463755555555554
       },
       "prevControl": null,
       "nextControl": {
-        "x": 8.192044444443543,
-        "y": 6.446750000005727
+        "x": 7.534294444444447,
+        "y": 6.398027777777776
       },
       "isLocked": false,
       "linkedName": "End Refuel Left 2"
@@ -50,7 +50,21 @@
       "rotationDegrees": -90.0
     }
   ],
-  "constraintZones": [],
+  "constraintZones": [
+    {
+      "name": "Constraints Zone",
+      "minWaypointRelativePos": 0.7206965840589421,
+      "maxWaypointRelativePos": 1.144005358338915,
+      "constraints": {
+        "maxVelocity": 1.5,
+        "maxAcceleration": 2.5,
+        "maxAngularVelocity": 360.0,
+        "maxAngularAcceleration": 180.0,
+        "nominalVoltage": 12.0,
+        "unlimited": false
+      }
+    }
+  ],
   "pointTowardsZones": [],
   "eventMarkers": [],
   "globalConstraints": {

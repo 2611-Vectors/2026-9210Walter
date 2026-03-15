@@ -31,6 +31,8 @@ public class Transition extends SubsystemBase {
         upperLeftMotor.setFollower(upperRightMotor, MotorAlignmentValue.Opposed);
         upperLeftMotor.setInverted(InvertedValue.CounterClockwise_Positive);
         lowerMotor.setInverted(InvertedValue.CounterClockwise_Positive);
+        upperLeftMotor.setStatorCurrentLimit(10.0);
+        lowerMotor.setStatorCurrentLimit(80.0);
     }
 
     public Command setUpperTransitioVoltage(Supplier<Double> voltage) {
@@ -52,7 +54,7 @@ public class Transition extends SubsystemBase {
     }
 
     public Command manualUpperTransitionRPM(Supplier<Boolean> reverse) {
-        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 1000.0);
+        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Upper/Target RPM", 2000.0);
         return setUpperTransitionRPM(() -> (reverse.get() ? -rpm.get() : rpm.get()));
     }
 
@@ -75,7 +77,7 @@ public class Transition extends SubsystemBase {
     }
 
     public Command manualLowerTransitionRPM(Supplier<Boolean> reverse) {
-        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 1000.0);
+        LoggedNetworkNumber rpm = new LoggedNetworkNumber("/Transition/Lower/Target RPM", 2000.0);
         return setLowerTransitionRPM(() -> (reverse.get() ? -rpm.get() : rpm.get()));
     }
 

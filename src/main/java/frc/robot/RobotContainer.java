@@ -221,5 +221,6 @@ public class RobotContainer {
     public Command getAutonomousCommand() {
         return new PathfindToStart(new PathPlannerAuto(autoChooser.get().getName()));
         // return autoChooser.get();
+        // use this if you need to use a non-pathplanner auto
     }
 }
