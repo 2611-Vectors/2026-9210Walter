@@ -129,13 +129,13 @@ public final class Constants {
                 .plus(groundToRobotTopPlate);
 
         // Basic filtering thresholds
-        public static final double MAX_AMBIGUITY = 0.2;
-        public static final double MAX_Z_ERROR = 0.2;
+        public static final double MAX_AMBIGUITY = 0.1;
+        public static final double MAX_Z_ERROR = 0.1;
 
         // Standard deviation baselines, for 1 meter distance and 1 tag
         // (Adjusted automatically based on distance and # of tags)
         public static double linearStdDevBaseline = 0.02; // Meters
-        public static double angularStdDevBaseline = 0.06; // Radians
+        public static double angularStdDevBaseline = 0.04; // Radians
 
         // Standard deviation multipliers for each camera
         // (Adjust to trust some cameras more than others)
@@ -155,9 +155,9 @@ public final class Constants {
     }
 
     public static class AutoConstants {
-        public static final double ROBOT_MASS_KG = Units.lbsToKilograms(114);
-        public static final double ROBOT_MOI = 4.9;
-        public static final double WHEEL_COF_FRICTION = 2.255;
+        public static final double ROBOT_MASS_KG = Units.lbsToKilograms(115);
+        public static final double ROBOT_MOI = 5.25;
+        public static final double WHEEL_COF_FRICTION = 1.05;
         public static final double ROTATION_ERROR = 2.0;
     }
 }

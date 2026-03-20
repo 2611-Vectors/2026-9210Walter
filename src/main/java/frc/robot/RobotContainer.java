@@ -128,7 +128,7 @@ public class RobotContainer {
         NamedCommands.registerCommand(
                 "autoTarget", new AutoTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
         NamedCommands.registerCommand("runIntake", m_Intake.setIntakeRPM(() -> 2000.0));
-        NamedCommands.registerCommand("stopIntake", m_Intake.setIntakeVoltage(() -> 0.0));
+        NamedCommands.registerCommand("stopIntake", m_Intake.setIntakeRPM(() -> 0.0));
         NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 0.0, () -> 1000.0));
         NamedCommands.registerCommand("runFullSend", m_FullSend.setFullSendRPM(() -> 5000.0));
         NamedCommands.registerCommand("intakeOut", m_Intake.dumbIntakeOut());
