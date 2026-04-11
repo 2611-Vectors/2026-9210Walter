@@ -42,20 +42,14 @@ public final class Constants {
     }
 
     public static class ShooterConstants {
-        public static final int LEFT_MOTOR_ID = 61;
-        public static final int RIGHT_MOTOR_ID = 62;
-
-        public static final int LEFT_LINEAR_ACTUATOR_ID = 0;
-        public static final int RIGHT_LINEAR_ACTUATOR_ID = 1;
-
-        public static final double LINEAR_ACTUATOR_MINIMUM = 0.65;
-        public static final double LINEAR_ACTUATOR_MAXIMUM = 1.0;
+        public static final int LEFT_MOTOR_ID = 62;
+        public static final int RIGHT_MOTOR_ID = 61;
 
         public static final double SHOOTER_WHEEL_DIAMETER = Units.inchesToMeters(3.0);
-        public static final double TIP_TO_RPM = 465.0;
+        public static final double TIP_TO_RPM = 450.0;
         public static final double GRAVITATIONAL_CONSTANT = 9.8; // m/s
         public static final double INITIAL_HEIGHT = Units.inchesToMeters(18.33);
-        public static final double LAUNCH_ANGLE = 0.93;
+        public static final double LAUNCH_ANGLE = 0.90;
         public static final double LAUNCH_ANGLE_COS = 2 * Math.pow(Math.cos(LAUNCH_ANGLE), 2);
 
         public static final double MAXIMUM_RPM = 4500.0;
@@ -77,15 +71,15 @@ public final class Constants {
 
         public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
         public static final double PIVOT_IN_ANGLE = 1.5;
-        public static final double PIVOT_OUT_ANGLE = 120.0;
+        public static final double PIVOT_OUT_ANGLE = 130.0;
     }
 
     public static class TransitionConstants {
-        public static final int UPPER_LEFT_MOTOR_ID = 41;
-        public static final int UPPER_RIGHT_MOTOR_ID = 42;
+        // public static final int UPPER_LEFT_MOTOR_ID = 41;
+        // public static final int UPPER_RIGHT_MOTOR_ID = 42;
         public static final int LOWER_MOTOR_ID = 52;
 
-        public static final double UPPER_GEAR_RATIO = 1.0 / 3.0;
+        public static final double UPPER_GEAR_RATIO = 1.0 / 9.0;
         public static final double LOWER_GEAR_RATIO = 1.0;
     }
 

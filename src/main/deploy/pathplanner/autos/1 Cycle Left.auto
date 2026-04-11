@@ -5,12 +5,6 @@
     "data": {
       "commands": [
         {
-          "type": "named",
-          "data": {
-            "name": "resetHood"
-          }
-        },
-        {
           "type": "path",
           "data": {
             "pathName": "Left 1"

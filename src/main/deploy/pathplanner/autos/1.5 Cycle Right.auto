@@ -7,13 +7,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 cycle Left 1"
+            "pathName": "Right 1"
           }
         },
         {
           "type": "path",
           "data": {
-            "pathName": "2 cycle Left 2"
+            "pathName": "Right 2"
           }
         },
         {
@@ -29,7 +29,7 @@
               {
                 "type": "wait",
                 "data": {
-                  "waitTime": 3.0
+                  "waitTime": 5.0
                 }
               }
             ]
@@ -38,25 +38,13 @@
         {
           "type": "path",
           "data": {
-            "pathName": "2 cycle Left 3"
-          }
-        },
-        {
-          "type": "path",
-          "data": {
-            "pathName": "2 cycle Left 4"
-          }
-        },
-        {
-          "type": "named",
-          "data": {
-            "name": "autoTarget"
+            "pathName": "Right 2.5"
           }
         }
       ]
     }
   },
   "resetOdom": false,
-  "folder": "Left",
+  "folder": "Right",
   "choreoAuto": false
 }

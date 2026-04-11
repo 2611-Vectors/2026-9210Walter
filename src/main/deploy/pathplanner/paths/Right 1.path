@@ -12,19 +12,19 @@
         "y": 0.5
       },
       "isLocked": false,
-      "linkedName": null
+      "linkedName": "Right Start"
     },
     {
       "anchor": {
-        "x": 5.5,
+        "x": 6.0775,
         "y": 0.5
       },
       "prevControl": {
-        "x": 4.5,
+        "x": 5.0775,
         "y": 0.5000000000000001
       },
       "nextControl": {
-        "x": 7.5,
+        "x": 8.077500000000004,
         "y": 0.5
       },
       "isLocked": false,
@@ -51,7 +51,7 @@
     },
     {
       "waypointRelativePos": 1.4174273858921158,
-      "rotationDegrees": 58.07519986944036
+      "rotationDegrees": 74.85774240676429
     }
   ],
   "constraintZones": [
@@ -60,7 +60,7 @@
       "minWaypointRelativePos": 1.45,
       "maxWaypointRelativePos": 2.0,
       "constraints": {
-        "maxVelocity": 1.5,
+        "maxVelocity": 1.25,
         "maxAcceleration": 2.5,
         "maxAngularVelocity": 360.0,
         "maxAngularAcceleration": 180.0,

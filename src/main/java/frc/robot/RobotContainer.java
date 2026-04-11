@@ -30,7 +30,6 @@ import frc.robot.commands.DriveCommands;
 import frc.robot.commands.PathfindToStart;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.FullSend;
-import frc.robot.subsystems.Hood;
 import frc.robot.subsystems.Intake;
 import frc.robot.subsystems.Shooter;
 import frc.robot.subsystems.Transition;
@@ -55,9 +54,8 @@ public class RobotContainer {
     private final Intake m_Intake;
     private final Transition m_Transition;
     private final FullSend m_FullSend;
-    private final Hood m_Hood;
     private final Vision m_Vision;
-    //            that is lying ^
+    //         that is lying ^
 
     // Controller
     private final CommandXboxController m_DriverController =
@@ -74,7 +72,6 @@ public class RobotContainer {
         m_Transition = new Transition();
         m_Intake = new Intake();
         m_FullSend = new FullSend();
-        m_Hood = new Hood();
 
         switch (Constants.currentMode) {
             case REAL:
@@ -129,10 +126,9 @@ public class RobotContainer {
                 "autoTarget", new AutoTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
         NamedCommands.registerCommand("runIntake", m_Intake.setIntakeRPM(() -> 2000.0));
         NamedCommands.registerCommand("stopIntake", m_Intake.setIntakeRPM(() -> 0.0));
-        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 0.0, () -> 1000.0));
+        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 1000.0));
         NamedCommands.registerCommand("runFullSend", m_FullSend.setFullSendRPM(() -> 5000.0));
         NamedCommands.registerCommand("intakeOut", m_Intake.dumbIntakeOut());
-        NamedCommands.registerCommand("resetHood", m_Hood.setHoodPos(() -> 0.65));
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -159,7 +155,6 @@ public class RobotContainer {
      * edu.wpi.first.wpilibj2.command.button.JoystickButton}.
      */
     private void configureButtonBindings() {
-        m_Hood.setDefaultCommand(m_Hood.manualHoodPos());
 
         // Default command, normal field-relative drive
         m_Drive.setDefaultCommand(DriveCommands.joystickDrive(
