@@ -46,7 +46,8 @@ public final class Constants {
         public static final int RIGHT_MOTOR_ID = 61;
 
         public static final double SHOOTER_WHEEL_DIAMETER = Units.inchesToMeters(3.0);
-        public static final double TIP_TO_RPM = 450.0;
+        public static final double TIP_TO_RPM = 445.0;
+        // tip to RPM was 465, then 450
         public static final double GRAVITATIONAL_CONSTANT = 9.8; // m/s
         public static final double INITIAL_HEIGHT = Units.inchesToMeters(18.33);
         public static final double LAUNCH_ANGLE = 0.90;
@@ -64,13 +65,14 @@ public final class Constants {
         public static final int WHEEL_MOTOR_ID = 31;
 
         public static final int PIVOT_ENCODER_ID = 9;
-        public static final double PIVOT_ENCODER_OFFSET = 220.0;
+        public static final double PIVOT_ENCODER_OFFSET = 280.5;
 
         public static final double PIVOT_GEAR_RATIO = 1.0 / 25.0;
         public static final double INTAKE_GEAR_RATIO = 1.0;
 
         public static final double PIVOT_ANGLE_TOLERANCE = 0.5;
         public static final double PIVOT_IN_ANGLE = 1.5;
+        public static final double PIVOT_FLICK_ANGLE = 105.0;
         public static final double PIVOT_OUT_ANGLE = 130.0;
     }
 
@@ -80,7 +82,7 @@ public final class Constants {
         public static final int LOWER_MOTOR_ID = 52;
 
         public static final double UPPER_GEAR_RATIO = 1.0 / 9.0;
-        public static final double LOWER_GEAR_RATIO = 1.0;
+        public static final double LOWER_GEAR_RATIO = 1.0 / 3.0;
     }
 
     public static class VisionConstants {

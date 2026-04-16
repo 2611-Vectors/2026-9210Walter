@@ -124,11 +124,13 @@ public class RobotContainer {
 
         NamedCommands.registerCommand(
                 "autoTarget", new AutoTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
-        NamedCommands.registerCommand("runIntake", m_Intake.setIntakeRPM(() -> 2000.0));
+        NamedCommands.registerCommand("runIntake", m_Intake.setIntakeRPM(() -> 2500.0));
         NamedCommands.registerCommand("stopIntake", m_Intake.setIntakeRPM(() -> 0.0));
-        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 1000.0));
+        NamedCommands.registerCommand("runTransition", m_Transition.setTransitionRPM(() -> 2000.0));
+        NamedCommands.registerCommand("stopTransition", m_Transition.setTransitionRPM(() -> 0.0));
         NamedCommands.registerCommand("runFullSend", m_FullSend.setFullSendRPM(() -> 5000.0));
         NamedCommands.registerCommand("intakeOut", m_Intake.dumbIntakeOut());
+        NamedCommands.registerCommand("intakeFlick", m_Intake.IntakeFlick());
 
         // Set up auto routines
         autoChooser = new LoggedDashboardChooser<>("Auto Choices", AutoBuilder.buildAutoChooser());
@@ -188,6 +190,8 @@ public class RobotContainer {
 
         m_OperatorController.leftTrigger().whileTrue(m_Intake.manualIntakeRPM(() -> true));
 
+        m_OperatorController.x().whileTrue(m_Intake.IntakeFlick());
+
         m_DriverController
                 .rightTrigger()
                 .whileTrue(new ParallelCommandGroup(
@@ -198,7 +202,7 @@ public class RobotContainer {
                 .whileTrue(new ParallelCommandGroup(
                         m_FullSend.manualFullSendRPM(() -> true), m_Transition.manualTransitionRPM(() -> true)));
 
-        m_DriverController.leftTrigger().toggleOnTrue(m_Shooter.setShooterRPM(() -> 3200.0));
+        m_DriverController.leftTrigger().toggleOnTrue(m_Shooter.setShooterRPM(() -> -750.0));
 
         m_DriverController
                 .leftBumper()

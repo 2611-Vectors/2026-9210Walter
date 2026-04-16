@@ -30,11 +30,11 @@ public class Shooter extends SubsystemBase {
     // Max RPM / Seconds to max RPM
     SlewRateLimiter RPMSlew = new SlewRateLimiter(6000.0 / 3.0);
 
-    LoggedNetworkNumber manualRPM = new LoggedNetworkNumber("/Shooter/Target RPM", 2900.0);
+    LoggedNetworkNumber manualRPM = new LoggedNetworkNumber("/Shooter/Target RPM", 750.0);
 
     public Shooter() {
         leftMotor.setFollower(rightMotor, MotorAlignmentValue.Opposed);
-        leftMotor.setInverted(InvertedValue.Clockwise_Positive);
+        leftMotor.setInverted(InvertedValue.CounterClockwise_Positive);
     }
 
     public Command setShooterRPM(Supplier<Double> rpm) {
