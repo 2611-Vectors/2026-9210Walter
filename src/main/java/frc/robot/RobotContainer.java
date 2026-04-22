@@ -28,6 +28,7 @@ import frc.robot.commands.AutoTarget;
 import frc.robot.commands.AutoTargetDriverControl;
 import frc.robot.commands.DriveCommands;
 import frc.robot.commands.PathfindToStart;
+import frc.robot.commands.RobotTarget;
 import frc.robot.generated.TunerConstants;
 import frc.robot.subsystems.FullSend;
 import frc.robot.subsystems.Intake;
@@ -210,6 +211,11 @@ public class RobotContainer {
                         new AutoTargetDriverControl(m_Drive, m_Shooter, m_FullSend, m_Transition, m_DriverController));
 
         m_OperatorController.a().whileTrue(m_Intake.dumbIntakeOut());
+
+        m_DriverController
+                .b()
+                .toggleOnTrue(
+                        new RobotTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
     }
 
     /**
