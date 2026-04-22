@@ -69,10 +69,10 @@ public class AutoMath {
         return Math.sqrt((GRAVITATIONAL_CONSTANT * (dist * dist))
                 / (LAUNCH_ANGLE_COS * (Math.tan(LAUNCH_ANGLE) * dist - heightDiff)));
     }
-    
+
     public static double getFuelSpeedToRobot(double dist) {
-        return Math.sqrt((GRAVITATIONAL_CONSTANT * (dist * dist))
-                / (LAUNCH_ANGLE_COS * (Math.tan(LAUNCH_ANGLE) * dist)));
+        return Math.sqrt(
+                (GRAVITATIONAL_CONSTANT * (dist * dist)) / (LAUNCH_ANGLE_COS * (Math.tan(LAUNCH_ANGLE) * dist)));
     }
 
     public static Pose2d flipRed(Pose2d point) {

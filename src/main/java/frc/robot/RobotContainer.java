@@ -212,10 +212,7 @@ public class RobotContainer {
 
         m_OperatorController.a().whileTrue(m_Intake.dumbIntakeOut());
 
-        m_DriverController
-                .b()
-                .toggleOnTrue(
-                        new RobotTarget(m_Drive, m_Shooter, m_Intake, m_FullSend, m_Transition));
+        m_DriverController.b().toggleOnTrue(new RobotTarget(m_Shooter, m_Intake, m_FullSend, m_Transition));
     }
 
     /**
